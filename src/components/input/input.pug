@@ -1,0 +1,4 @@
+mixin input(label, type, name, classList)
+  label(class=`input ${classList ? classList : ''}`)
+    input(type=type, class='input__field', value="", name=name)
+    span.input__label #{label}

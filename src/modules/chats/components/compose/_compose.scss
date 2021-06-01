@@ -1,0 +1,85 @@
+.compose {
+  margin-top: auto;
+  height: 55px;
+  border-top: solid 1px #eaeaea;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__attach {
+    width: 40px;
+    height: 40px;
+    margin: 0 8px;
+  }
+
+  &__message {
+    width: 100%;
+
+    input {
+      width: 100%;
+      background-color: #efefef;
+      border-radius: 30px;
+      padding: 8px 20px;
+    }
+  }
+
+  &__send {
+    background: none;
+    margin: 0 20px;
+    &::before {
+      content: url('/static/img/arrow-right.svg');
+    }
+  }
+
+  &__attach-options {
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+    padding: 7px 50px 7px 15px;
+    left: 10px;
+    bottom: calc(100% + 10px);
+
+    &.opened {
+      display: block !important;
+    }
+
+    label {
+      background: none;
+      font-size: 12px;
+      color: #1e1e1e;
+      display: block;
+      font-weight: 500;
+      margin: 8px 0;
+      cursor: pointer;
+
+      &::before {
+        vertical-align: middle;
+        margin-right: 15px;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .attach-media {
+      &::before {
+        content: url('/static/img/media.svg');
+      }
+    }
+
+    .attach-document {
+      &::before {
+        content: url('/static/img/document.svg');
+      }
+    }
+
+    .attach-location {
+      &::before {
+        content: url('/static/img/location.svg');
+      }
+    }
+  }
+}
