@@ -1,0 +1,10 @@
+extends ../../components/head/head
+block vars
+  - const title = "404";
+
+block content
+  main.error
+    .error__wrap
+      img(src="/static/img/404.svg", alt=title).error__img
+      h1.error__title Page not found
+      a(href="/").t-purple.error__link Back to chats

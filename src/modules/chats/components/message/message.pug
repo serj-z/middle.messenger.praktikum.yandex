@@ -1,0 +1,8 @@
+mixin message(m)
+  div(class=`message ${m.you ? 'message-outcoming': 'message-incoming'}`)
+    div(class=`message__wrap ${m.image ? 'message__img': 'message__text'}`)
+      if m.image
+        img(src="/static/img/chat-pic.jpg", alt="")
+      else
+        | #{m.text}
+      span(class=`message__time ${m.read ? 'message-read': ''}`) #{m.time}

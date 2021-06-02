@@ -1,0 +1,12 @@
+extends ../../../components/modal/modal
+
+include /components/input/input
+
+block vars
+  - var modalTitle = 'Add contact'
+  - var classList = 'add-contact'
+  - var button = 'Submit';
+
+block content
+  form
+    +input('Username', 'text', 'add-contact', 'dynamic-label')
