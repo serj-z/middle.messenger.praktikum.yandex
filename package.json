@@ -4,8 +4,7 @@
   "description": "---",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server",
-    "prestart": "npm run build",
+    "start": "parcel build */**/index.pug && node ./server",
     "build": "parcel build */**/index.pug",
     "prebuild": "npm run clean",
     "clean": "node ./src/utils/clean.js",
