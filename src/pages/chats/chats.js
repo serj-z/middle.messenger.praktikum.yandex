@@ -49,8 +49,6 @@ listenEvent('.dynamic-label .input__field', 'keyup', function () {
 formMessage.onsubmit = (e) => {
   e.preventDefault();
   const formData = new FormData(formMessage);
-
-  for (let entry of formData.entries()) {
-    console.log(entry);
-  }
+  const value = Object.fromEntries(formData.entries());
+  console.log(value);
 };
