@@ -1,0 +1,99 @@
+.contacts {
+  overflow-y: auto;
+  background-color: $c_grey;
+  border-left: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  width: 310px;
+  @include hideScroll;
+
+  &__item {
+    border-bottom: solid 1px #ccc;
+    height: 71px;
+    display: flex;
+    transition: .3s;
+    position: relative;
+
+    &__wrap {
+      margin-left: 10px;
+      width: calc(100% - 57px);
+    }
+
+    &__meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    &__name {
+      font-weight: 600;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__time {
+      color: $c_dark_grey;
+      font-size: 9px;
+    }
+
+    &__text {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 12px;
+      color: $c_dark_grey;
+      width: calc(100% - 25px);
+
+      span {
+        color: #1e1e1e;
+      }
+    }
+
+    &__unread {
+      font-size: 11px;
+      color: #fff;
+      background-color: $c_purple;
+      border-radius: 50%;
+      position: absolute;
+      width: 20px;
+      line-height: 20px;
+      right: 10px;
+      bottom: 12px;
+      text-align: center;
+    }
+
+    &:not(.contacts__search) {
+      padding: 12px 10px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: darken($color: $c_grey, $amount: 3%);
+      }
+    }
+  }
+
+  &__search {
+    label {
+      cursor: text;
+      padding: 18px;
+      width: 100%;
+      display: block;
+
+      &::before {
+        content: url("/static/img/search.svg");
+        vertical-align: middle;
+      }
+    }
+
+    &__form {
+      width: 100%;
+    }
+
+    &__input {
+      width: calc(100% - 32px);
+      padding: 4px;
+    }
+  }
+}
