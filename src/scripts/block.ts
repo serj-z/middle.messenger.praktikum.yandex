@@ -1,5 +1,5 @@
 import EventBus from './eventBus';
-import { BlockMeta, Props, Children, LifeCycles } from './types';
+import { BlockMeta, Props, Children, LifeCycles, Tag } from './types';
 import { render as compile } from 'pug';
 
 export default abstract class Block {
@@ -9,17 +9,17 @@ export default abstract class Block {
   props: Props = {};
   eventBus: Function;
 
-  constructor(tagName: string, template: string, props: Props = {}, children: Children = {}) {
+  constructor(tag: Tag = { tagName: 'div' }, template: string, props: Props = {}, children: Children = {}) {
     const eventBus: EventBus = new EventBus();
     this._meta = {
-      tagName,
+      tag,
       template,
       props,
       children
     };
-    
+
     this.props = this._makePropsProxy(props);
-    
+
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
@@ -34,8 +34,14 @@ export default abstract class Block {
   }
 
   private _createResources(): void {
-    const { tagName } = this._meta;
-    this._element = this._createDocumentElement(tagName);
+    const { tag } = this._meta;
+    this._element = this._createDocumentElement(tag.tagName);
+    if (tag.classList) this._element.className = tag.classList;
+    if (tag.attrs) {
+      Object.keys(tag.attrs).forEach((attr: string) => {
+        this._element.setAttribute(attr, tag.attrs[attr]);
+      });
+    }
   }
 
   init(): void {
@@ -83,23 +89,29 @@ export default abstract class Block {
   }
 
   private _render(): void {
-    this._element.textContent = '';
-    this._element.append(this._toDocument());
+    this._element.textContent = this._meta.tag.text ? this._meta.tag.text : '';
+    [...this._toDocument().childNodes].forEach((node: Node): void => {
+      this._element.append(node);
+    });
     this._addEvents();
   }
 
+  render(): string {
+    return '';
+  }
+
   private _toDocument(): Node {
-    const template: string = compile(this._meta.template, this.props);
+    const template: string = this._meta.template ? compile(this._meta.template, this.props) : this.render();
     const parser: DOMParser = new DOMParser();
     const dom: HTMLElement = parser.parseFromString(template, 'text/html').body;
     const children: Children = this._meta.children;
 
     Object.keys(children).forEach(child => {
       const parent = dom.querySelector(`[data-child*=${child}]`);
-      children[child].forEach((item: Block) => parent.append(item.getContent()));
+      if (parent) children[child].forEach((item: Block) => parent.append(item.getContent()));
     });
 
-    return dom.firstChild;
+    return dom;
   }
 
   getContent(): HTMLElement {

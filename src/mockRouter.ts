@@ -1,36 +1,18 @@
 import Block from './scripts/block';
-import tmpl from './template.pug';
 import { render } from './scripts/globalFunctions';
+import { checkAuth } from './scripts/globalFunctions';
+import user from './data/user.json';
 
-const contacts = [
-  {
-    name: 'n1',
-    data: 'd1'
-  },
-  {
-    name: 'n2',
-    data: 'd2'
-  },
-  {
-    name: 'n3',
-    data: 'd3'
-  },
-];
-
-export default class Main extends Block {
+class Main extends Block {
   constructor() {
-    super('main', tmpl, {
-      text: 'main'
+    super(undefined, '', {
+      auth: user.loggedin
     });
   }
 
   componentDidMount() {
-
-    this.element.classList.add('new-class');
-
-    setTimeout(() => {
-      location.href = './pages/chats/index.html'
-    }, 2000);
+    checkAuth(this.props.auth);
+    if(this.props.auth) location.href = './pages/chats/index.html';
   }
 }
 

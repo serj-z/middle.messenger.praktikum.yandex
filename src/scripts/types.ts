@@ -1,7 +1,7 @@
 import Block from './block';
 
 export type BlockMeta = {
-  tagName: string,
+  tag: Tag,
   template: string,
   props: Props, 
   children: Children
@@ -12,13 +12,22 @@ export type Props = {
   [prop: string]: any;
 };
 
+export type Tag = {
+  tagName: string;
+  text?: string;
+  classList?: string;
+  attrs?: {
+    [attr: string]: string;
+  }
+};
+
 export type BlockEvents = {
   [event: string]: EventListener
 };
 
 export type Children = {
   [child: string]: Array<Block>
-}
+};
 
 export type Listener = Record<string, Array<Function>>;
 

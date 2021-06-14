@@ -4,11 +4,12 @@
   "description": "---",
   "main": "index.js",
   "scripts": {
-    "start": "parcel build */**/index.pug && node ./server",
-    "build": "parcel build */**/index.pug",
+    "start": "parcel build */**/index.pug && npm run imgages && node ./server",
+    "build": "parcel build */**/index.pug && npm run imgages",
+    "imgages": "parcel build ./src/static/img/build/*",
     "prebuild": "npm run clean",
     "clean": "node ./src/utils/clean.js",
-    "dev": "npm run clean && parcel watch */**/index.pug --no-cache",
+    "dev": "npm run clean && npm run imgages && parcel watch */**/index.pug --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/serj-z/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
+    "@types/pug": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "eslint": "^7.28.0",
