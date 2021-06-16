@@ -1,11 +1,9 @@
-include ../../../../components/icon-btn/icon-btn
-
 form(method="post").compose#formMessage
   
-  +iconButton('attach.svg', 'button', 'compose__attach') 
+  div(data-child="attach")
   
   .compose__message 
-    input(type="text", name="message", placeholder="Message")
+    input(type="text", name="message", placeholder="Message")#sendMessage
 
   button(type="submit").compose__send
 
@@ -16,4 +14,3 @@ form(method="post").compose#formMessage
       input(type="file", accept=".doc,.docx,.pdf", hidden)
     label.attach-location Location
       input(type="button", hidden)
-  

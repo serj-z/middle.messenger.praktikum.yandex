@@ -6,10 +6,10 @@ import tmpl from './template.pug';
 export default class Modal extends Block {
   constructor(props: Props) {
     super({
-      tagName: 'div',
+      tagName: props.tag || 'form',
       classList: `modal ${props.classList ? props.classList : ''}`
     }, tmpl, props, {
-      button: [new Button({text: props.text, type: 'submit', classList: 'modal__btn'})],
+      button: [new Button({text: props.btnText, type: 'submit', classList: 'modal__btn'})],
       content: props.content
     });
   }

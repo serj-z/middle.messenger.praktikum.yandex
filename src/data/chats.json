@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Андрей",
     "unread": 2,
     "img": "chat-placeholder.png",
@@ -7,6 +8,7 @@
     "message": "Изображение"
   },
   {
+    "id": 2,
     "name": "Киноклуб",
     "img": "chat-placeholder.png",
     "time": "12:00",
@@ -14,6 +16,7 @@
     "you": true
   },
   {
+    "id": 3,
     "name": "Илья",
     "unread": 4,
     "img": "chat-placeholder.png",
@@ -21,6 +24,7 @@
     "message": "Друзья, у меня для вас особенный выпуск новостей!..."
   },
   {
+    "id": 4,
     "name": "Вадим",
     "img": "chat-placeholder.png",
     "time": "Пт",
@@ -28,30 +32,35 @@
     "you": true
   },
   {
+    "id": 5,
     "name": "тет-а-теты",
     "img": "chat-placeholder.png",
     "time": "Ср",
     "message": "И Human Interface Guidelines и Material Design рекомендуют..."
   },
   {
+    "id": 6,
     "name": "1, 2, 3",
     "img": "chat-placeholder.png",
     "time": "Пн",
     "message": "Миллионы россиян ежедневно проводят десятки часов свое..."
   },
   {
+    "id": 7,
     "name": "Design Destroyer",
     "img": "chat-placeholder.png",
     "time": "Пн",
     "message": "В 2008 году художник Jon Rafman  начал собирать..."
   },
   {
+    "id": 8,
     "name": "Day.",
     "img": "chat-placeholder.png",
     "time": "1 Мая 2020",
     "message": "Так увлёкся работой по курсу, что совсем забыл его анонсир..."
   },
   {
+    "id": 9,
     "name": "Стас Рогозин",
     "img": "chat-placeholder.png",
     "time": "12 Апр 2020",

@@ -15,7 +15,15 @@ const items = [
     link: '#',
     text: 'Add contact',
     img: '/add-contact.svg',
-    classList: 'menu__add-contact'
+    classList: 'menu__add-contact',
+    events: {
+      click: (e: Event) => {
+        e.stopPropagation();
+        const elem: HTMLElement = document.querySelector('.add-contact');
+        elem.classList.add('opened');
+        elem.parentElement.classList.add('opened');
+      }
+    }
   },
   {
     link: '/pages/login/index.html',

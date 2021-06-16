@@ -10,7 +10,7 @@ export function checkAuth(loggedin: boolean): void {
   if(!loggedin) location.href = '/pages/login/index.html';
 }
 
-export function listenEvent(selector, event: string, handler: Function) {
+export function listenEvent(selector, event: string, handler: Function): void {
   const elems = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
   if (!elems.length) {
     elems.addEventListener(event, handler);
@@ -21,10 +21,8 @@ export function listenEvent(selector, event: string, handler: Function) {
   }
 }
 
-export function listenModal(selector, modal) {
-  listenEvent(selector, 'click', (e: Event) => {
-    e.preventDefault();
-    const elem = typeof modal === 'string' ? document.querySelector(modal) : modal;
-    elem.classList.add("opened");
-  });
+export function logFormEntries(form: HTMLFormElement) {
+  const formData = new FormData(form);
+  const value = Object.fromEntries(formData.entries());
+  console.log(value);
 }

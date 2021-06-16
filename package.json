@@ -4,12 +4,12 @@
   "description": "---",
   "main": "index.js",
   "scripts": {
-    "start": "parcel build */**/index.pug && npm run imgages && node ./server",
-    "build": "parcel build */**/index.pug && npm run imgages",
-    "imgages": "parcel build ./src/static/img/build/*",
+    "start": "parcel build */**/index.pug && npm run images && node ./server",
+    "build": "parcel build */**/index.pug && npm run images",
+    "images": "parcel build ./src/static/img/build/*",
     "prebuild": "npm run clean",
     "clean": "node ./src/utils/clean.js",
-    "dev": "npm run clean && npm run imgages && parcel watch */**/index.pug --no-cache",
+    "dev": "npm run clean && npm run images && parcel watch */**/index.pug --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -3,7 +3,7 @@ import Block from './block';
 export type BlockMeta = {
   tag: Tag,
   template: string,
-  props: Props, 
+  props: Props,
   children: Children
 };
 

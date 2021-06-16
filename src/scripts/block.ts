@@ -76,6 +76,11 @@ export default abstract class Block {
     Object.assign(this.props, nextProps);
   };
 
+  setChildren = (elem: string, newChildren: Array<Block>): void => {
+    this._meta.children[elem] = newChildren;
+    this._render();
+  };
+
   private _addEvents(): void {
     const { events = {} } = this.props;
 
@@ -127,8 +132,9 @@ export default abstract class Block {
         return typeof value === 'function' ? value.bind(target) : value;
       },
       set(target: object, prop: string, value: any): boolean {
+        const oldProps = { ...target };
         target[prop] = value;
-        self.eventBus().emit(LifeCycles.FLOW_CDU, { ...target }, target);
+        self.eventBus().emit(LifeCycles.FLOW_CDU, oldProps, target);
         return true;
       },
       deleteProperty() {
