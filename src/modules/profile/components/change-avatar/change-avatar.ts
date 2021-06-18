@@ -1,6 +1,9 @@
 import Markup from '../../../../components/markup/markup';
 import Modal from '../../../../components/modal/modal';
-import template from './template.pug';
+
+const template: string = `form(method="post")#formAvatar
+  label.avatar-label.t-purple Upload from your device
+    input(type="file", accept="image/png, image/jpeg", name="avatar", id="avatar" hidden)`;
 
 export default class ChangeAvatar extends Modal {
   constructor() {

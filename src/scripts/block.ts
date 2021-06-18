@@ -85,12 +85,18 @@ export default abstract class Block {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName: string): void => {
-      this._element.addEventListener(eventName, events[eventName]);
+      let fn: EventListener = events[eventName];
+      if(this.props.bindContext) fn = fn.bind(this);
+      this._element.addEventListener(eventName, fn);
     });
   }
 
   get element(): HTMLElement {
     return this._element;
+  }
+
+  get children(): Children {
+    return this._meta.children;
   }
 
   private _render(): void {

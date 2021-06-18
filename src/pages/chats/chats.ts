@@ -1,11 +1,13 @@
 import Block from '../../scripts/block';
-import tmpl from './template.pug';
 import { checkAuth, render, listenEvent } from '../../scripts/globalFunctions';
 import user from '../../data/user.json';
 import AddContact from '../../modules/chats/components/add-contact/add-contact';
 import DeleteChat from '../../modules/chats/components/delete-chat/deleteChat';
 import Chats from '../../modules/chats/chats';
 import MenuItems from '../../modules/menu/menu';
+
+const tmpl: string = `main.chats-wrap(data-child="chatsComponents")
+div(data-child="modals").modal-bg`;
 
 export default class ChatsPage extends Block {
   constructor() {
@@ -24,12 +26,6 @@ export default class ChatsPage extends Block {
 
 render('#root', new ChatsPage());
 
-const inputs = document.querySelectorAll('.dynamic-label .input__field');
-if (inputs.length) {
-  listenEvent(inputs, 'keyup', function () {
-    this.setAttribute('value', this.value);
-  });
-}
 
 const menu: HTMLElement = document.querySelector('.menu');
 

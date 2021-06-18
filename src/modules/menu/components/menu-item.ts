@@ -1,8 +1,11 @@
 import Block from '../../../scripts/block';
-import tmpl from './template.pug';
+import { Props } from '../../../scripts/types';
+
+const tmpl: string = `img(src=img, alt=text).menu__item__img
+span #{text}`;
 
 export default class MenuItem extends Block {
-  constructor(props) {
+  constructor(props: Props) {
     super({
       tagName: 'a',
       classList: `menu__item ${props.classList ? props.classList : ''}`,

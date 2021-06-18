@@ -1,8 +1,18 @@
 import Block from '../../scripts/block';
-import tmpl from './template.pug';
 import MenuItem from './components/menu-item';
 import IconButton from '../../components/icon-btn/iconBtn';
 import user from '../../data/user.json';
+
+const tmpl: string = `img(src=img, alt="user", class="menu__img")
+
+.menu__user 
+  h3.menu__fullname #{firstname} #{lastname}
+  p.menu__username #{username}
+
+nav.menu__list(data-child='menuItems')
+
+.menu__burger
+div(data-child='close')`;
 
 const items = [
   {

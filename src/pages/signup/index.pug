@@ -1,24 +1,7 @@
 extends ../../components/head/head
 
-//- include ../../components/input/input
-//- include ../../components/button/button
-
 block vars
-  - const title = "Sign Up";
+  - const title = "Sign up";
 
-//- append scripts
-//-   script(src='/pages/signup/signup.js', defer)
-
-//- block content
-//-   main.login
-//-     form.login__form#signupForm
-//-       h1.login__headline Sign Up
-//-       +input('E-mail', 'email', 'email', 'dynamic-label login__input')
-//-       +input('Username', 'text', 'username', 'dynamic-label login__input')
-//-       +input('First name', 'text', 'firstname', 'dynamic-label login__input')
-//-       +input('Last name', 'text', 'lastname', 'dynamic-label login__input')
-//-       +input('Phone', 'tel', 'phone', 'dynamic-label login__input')
-//-       +input('Password', 'password', 'password', 'dynamic-label login__input')
-//-       +input('Confirm password', 'password', 'confirm-password', 'dynamic-label login__input')
-//-       +button('Sign Up', 'submit', 'login__submit')
-//-       a(href="/pages/login/index.pug").t-purple.login__link Login
+block scripts
+  script(src='/pages/signup/signup.ts', defer)

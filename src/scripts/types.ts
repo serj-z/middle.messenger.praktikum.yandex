@@ -9,6 +9,7 @@ export type BlockMeta = {
 
 export type Props = {
   events?: BlockEvents;
+  bindContext?: boolean;
   [prop: string]: any;
 };
 
@@ -38,9 +39,39 @@ export interface IEventBus {
   emit: Function
 };
 
+export type RequestOptions = {
+  headers: Record<string, string>,
+  method: Methods,
+  timeout?: number,
+  data: any
+};
+
+export type HTTPOptions = {
+  headers: Record<string, string>,
+  timeout?: number,
+  data: any
+};
+
 export enum LifeCycles {
   INIT = 'init',
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_CDU = 'flow:component-did-update',
   FLOW_RENDER = 'flow:render'
+};
+
+export enum Methods {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE'
+};
+
+export type ValidationRule = (val: string) => boolean;
+export type Validator = (val: string) => string;
+export type MakeValidator = (msg?: string, arg?: any) => Validator;
+
+export enum PassTypes {
+  pass,
+  oldPass,
+  confirmPass
 };

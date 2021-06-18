@@ -1,19 +1,7 @@
 extends ../../components/head/head
 
-//- include ../../components/input/input
-//- include ../../components/button/button
-
 block vars
-  - const title = "Login";
+  - const title = "Log in";
 
-//- append scripts
-//-   script(src='/pages/login/login.js', defer)
-
-//- block content
-//-   main.login
-//-     form.login__form#loginForm
-//-       h1.login__headline Welcome
-//-       +input('Username', 'text', 'username', 'dynamic-label login__input')
-//-       +input('Password', 'password', 'password', 'dynamic-label login__input')
-//-       +button('Login', 'submit', 'login__submit')
-//-       a(href="/pages/signup/index.pug").t-purple.login__link Sign Up
+block scripts
+  script(src='/pages/login/login.ts', defer)

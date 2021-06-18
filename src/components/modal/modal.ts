@@ -1,7 +1,10 @@
 import Block from '../../scripts/block';
 import { Props } from '../../scripts/types';
 import Button from '../button/button';
-import tmpl from './template.pug';
+
+const tmpl: string = `div(data-child='button').modal__container
+  h2.modal__title #{title}
+  div(data-child='content').modal__content`;
 
 export default class Modal extends Block {
   constructor(props: Props) {

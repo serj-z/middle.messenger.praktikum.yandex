@@ -1,12 +1,23 @@
 import Block from '../../scripts/block';
-import tmpl from './template.pug';
 import { Props } from '../../scripts/types';
 import user from '../../data/user.json';
 import Return from './components/return/return';
 import ChangeAvatar from './components/change-avatar/change-avatar';
 import Markup from '../../components/markup/markup';
-import avatar from '../profile/components/avatar/template.pug';
 import ProfileForm from './components/input/profileForm';
+
+const tmpl: string = `main(data-child="inputs").profile
+  div(data-child="avatar")
+
+  h2.profile__name #{displayname}
+    
+  div(data-child="return").return
+
+  div(data-child="modals").modal-bg`;
+
+const avatar: string = `.profile__avatar
+  img(src=img alt=displayname class="profile__img")
+  .profile__avatar-change`;
 
 export default class Profile extends Block {
   constructor(props: Props) {
@@ -14,7 +25,8 @@ export default class Profile extends Block {
       tagName: 'div'
     }, tmpl, { ...user }, {
       inputs: [new ProfileForm({
-        tag: 'div',
+        tag: props.tag,
+        id: props.id,
         children: {
           content: props.inputs
         }

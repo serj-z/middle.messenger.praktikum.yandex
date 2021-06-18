@@ -1,5 +1,4 @@
 import Input from '../../../../components/input/input';
-// import tmpl from './template.pug';
 import Modal from '../../../../components/modal/modal';
 import { logFormEntries } from '../../../../scripts/globalFunctions';
 

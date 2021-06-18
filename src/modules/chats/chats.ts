@@ -1,6 +1,5 @@
 import Block from '../../scripts/block';
 import Search from './components/search/search';
-import tmpl from './template.pug';
 import chats from '../../data/chats.json';
 import Contacts from './components/contact/contacts';
 import Chat from './components/chat/chat';
@@ -8,6 +7,8 @@ import { Props } from '../../scripts/types';
 import { listenEvent } from '../../scripts/globalFunctions';
 import Contact from './components/contact/contact';
 
+const tmpl: string = `.chats(data-child="chat")
+  ul.contacts(data-child="contacts")`;
 export const chat = new Chat({ chatId: undefined });
 
 export default class Chats extends Block {

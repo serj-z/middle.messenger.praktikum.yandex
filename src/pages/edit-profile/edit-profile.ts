@@ -1,62 +1,56 @@
-import { checkAuth, render, listenEvent } from '../../scripts/globalFunctions';
+import { checkAuth, render, listenEvent, logFormEntries } from '../../scripts/globalFunctions';
 import user from '../../data/user.json';
 import Profile from '../../modules/profile/profile';
-import Markup from '../../components/markup/markup';
 import Input from '../../modules/profile/components/input/input';
-
-const actions: string = `a(href="/pages/edit-profile/index.html").profile__action.t-purple Edit profile
-a(href="/pages/change-pass/index.html").profile__action.t-purple Change password
-a(href="/pages/login/index.html").profile__action.t-red Log out`;
+import Button from '../../components/button/button';
 
 const inputs = [{
   label: 'E-mail',
   type: 'email',
   name: 'email',
-  disabled: true,
+  disabled: false,
   value: user.email
 }, {
   label: 'Username',
   type: 'text',
   name: 'username',
-  disabled: true,
+  disabled: false,
   value: user.username
 }, {
-  label: 'E-mail',
+  label: 'Firstname',
   type: 'text',
-  name: 'Firstname',
-  disabled: true,
+  name: 'firstname',
+  disabled: false,
   value: user.firstname
 }, {
   label: 'Lastname',
   type: 'text',
   name: 'lastname',
-  disabled: true,
+  disabled: false,
   value: user.lastname
 }, {
   label: 'Displayname',
   type: 'text',
   name: 'displayname',
-  disabled: true,
+  disabled: false,
   value: user.displayname
 }, {
   label: 'Phone',
   type: 'tel',
   name: 'phone',
-  disabled: true,
+  disabled: false,
   value: user.phone
 }];
 
-export default class ProfilePage extends Profile {
+export default class EditProfilePage extends Profile {
   constructor() {
     super({
-      tag: 'div',
+      id: 'editProfileForm',
       inputs: [
         ...inputs.map(item => new Input(item)),
-        new Markup({
-          classList: 'profile__actions',
-          template: actions
-        })],
-      return: '/'
+        new Button({text: 'Submit', type: 'submit', classList: 'profile__submit'})
+      ],
+      return: '/pages/profile/index.html'
     });
   }
 
@@ -65,7 +59,7 @@ export default class ProfilePage extends Profile {
   }
 }
 
-render('#root', new ProfilePage());
+render('#root', new EditProfilePage());
 
 listenEvent('.modal-bg', 'click', function (e: Event) {
   if (e.target !== this) {
@@ -73,3 +67,11 @@ listenEvent('.modal-bg', 'click', function (e: Event) {
   }
   document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
 });
+
+
+// formProfile.onsubmit = (e) => {
+//   e.preventDefault();
+//   const formData = new FormData(formProfile);
+//   const value = Object.fromEntries(formData.entries());
+//   console.log(value);
+// };
