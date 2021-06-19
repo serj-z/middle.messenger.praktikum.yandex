@@ -2,6 +2,12 @@
   position: relative;
   display: block;
   z-index: 2;
+  margin-bottom: 10px;
+
+  &__msg {
+    white-space: pre-line;
+    color: #ff0000;
+  }
 
   &.dynamic-label {
 
@@ -20,6 +26,7 @@
       border-bottom: solid 1px $c_purple;
       padding-bottom: 7px;
       margin-top: 14px;
+      margin-bottom: 6px;
 
       &[value=""]:not(input:focus) {
         & + .input__label {

@@ -1,91 +1,53 @@
-import { checkAuth, render, listenEvent, logFormEntries } from '../../scripts/globalFunctions';
+import { checkAuth, render, logFormEntries } from '../../scripts/globalFunctions';
 import user from '../../data/user.json';
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
 import Block from '../../scripts/block';
 import Validation from '../../scripts/validation';
 import { PassTypes } from '../../scripts/types';
+import InputMsg from '../../components/input/inputMsg';
 
-const v = new Validation();
+const v = new Validation('inputs', 'message');
 
 const inputs = [{
   label: 'E-mail',
   type: 'email',
   name: 'email',
-  events: {
-    focusout: function(e: Event) {
-      const errors = v.validateField(e.target as HTMLInputElement, [v.isEmail()]);
-      this.children.message[0].setProps({text: errors});
-    }
-  }
+  rules: [v.isEmail()]
 }, {
   label: 'Username',
   type: 'text',
   name: 'username',
-  events: {
-    focusout: function(e) {
-      console.log(this)
-      this.setProps({label: e.target.value})
-      console.log(e.target.value)
-    }
-  }
+  rules: [v.isUsername(), v.isMinLength('', 5)]
 }, {
   label: 'Firstname',
   type: 'text',
   name: 'firstname',
-  events: {
-    focusout: function(e) {
-      console.log(this)
-      this.setProps({label: e.target.value})
-      console.log(e.target.value)
-    }
-  }
+  rules: [v.isRequired()]
 }, {
   label: 'Lastname',
   type: 'text',
   name: 'lastname',
-  events: {
-    focusout: function(e) {
-      console.log(this)
-      this.setProps({label: e.target.value})
-      console.log(e.target.value)
-    }
-  }
+  rules: [v.isRequired()]
 }, {
   label: 'Phone',
   type: 'tel',
   name: 'phone',
-  events: {
-    focusout: function(e) {
-      console.log(this)
-      this.setProps({label: e.target.value})
-      console.log(e.target.value)
-    }
-  }
+  rules: [v.isPhone(), v.isMinLength(`At least 2 digits required`, 2)]
 }, {
   label: 'Password',
   type: 'password',
   name: 'pass',
-  events: {
-    focusout: function(e: Event) {
-      const errors = v.validateField(e.target as HTMLInputElement, [v.isPassword('', PassTypes.pass), v.isMinLength('', 5)]);
-      this.children.message[0].setProps({text: errors});
-    }
-  }
+  rules: [v.isPassword('', PassTypes.pass), v.isMinLength('', 5)]
 }, {
   label: 'Confirm password',
   type: 'password',
   name: 'confirmpass',
-  events: {
-    focusout: function(e: Event) {
-      const errors = v.validateField(e.target as HTMLInputElement, [v.isConfirmPassword(), v.isMinLength('', 5)]);
-      this.children.message[0].setProps({text: errors});
-    }
-  }
+  rules: [v.isConfirmPassword(), v.isMinLength('', 5)]
 }];
 
 const tmpl: string = `.login__form
-  form(data-child="content")#signupForm
+  form(data-child="inputs button validation")#signupForm
     h1.login__headline Sign Up
 
   a(href="/pages/login/index.html").t-purple.login__link Log in`
@@ -95,15 +57,32 @@ export default class SignupPage extends Block {
     super({
       tagName: 'main',
       classList: 'login'
-    }, tmpl, undefined, {
-      content: [
-        ...inputs.map(item => new Input({
-          ...item,
-          classList: 'dynamic-label login__input',
-          bindContext: true,
-        })),
-        new Button({text: 'Sign Up', type: 'submit', classList: 'login__submit'})
-      ]
+    }, tmpl, {
+      bindContext: true,
+      events: {
+        submit: function (e: Event) {
+          const err = v.validateForm(this);
+          if (err) {
+            e.preventDefault();
+            this.children.validation[0].setProps({text: err});
+            return;
+          }
+          logFormEntries(this.getContent());
+        }
+      }
+    }, {
+      inputs: inputs.map(item => new Input({
+        ...item,
+        classList: 'dynamic-label login__input',
+        bindContext: true,
+        events: {
+          focusout: function (e: Event) {
+            v.validateField(e.currentTarget as HTMLInputElement, this);
+          }
+        }
+      })),
+      button: [new Button({ text: 'Sign Up', type: 'submit', classList: 'login__submit' })],
+      validation: [new InputMsg({classList: 'form-validation t-red'})]
     });
   }
 
@@ -113,11 +92,3 @@ export default class SignupPage extends Block {
 }
 
 render('#root', new SignupPage());
-
-
-// signupForm.onsubmit = (e) => {
-//   e.preventDefault();
-//   const formData = new FormData(signupForm);
-//   const value = Object.fromEntries(formData.entries());
-//   console.log(value);
-// };

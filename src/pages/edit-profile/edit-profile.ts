@@ -3,52 +3,68 @@ import user from '../../data/user.json';
 import Profile from '../../modules/profile/profile';
 import Input from '../../modules/profile/components/input/input';
 import Button from '../../components/button/button';
+import Validation from '../../scripts/validation';
+import InputMsg from '../../components/input/inputMsg';
+
+const v = new Validation('content', 'message');
 
 const inputs = [{
   label: 'E-mail',
   type: 'email',
   name: 'email',
-  disabled: false,
-  value: user.email
+  value: user.email,
+  rules: [v.isEmail()]
 }, {
   label: 'Username',
   type: 'text',
   name: 'username',
-  disabled: false,
-  value: user.username
+  value: user.username,
+  rules: [v.isUsername(), v.isMinLength('', 5)]
 }, {
   label: 'Firstname',
   type: 'text',
   name: 'firstname',
-  disabled: false,
-  value: user.firstname
+  value: user.firstname,
+  rules: [v.isRequired()]
 }, {
   label: 'Lastname',
   type: 'text',
   name: 'lastname',
-  disabled: false,
-  value: user.lastname
+  value: user.lastname,
+  rules: [v.isRequired()]
 }, {
   label: 'Displayname',
   type: 'text',
   name: 'displayname',
-  disabled: false,
-  value: user.displayname
+  value: user.displayname,
+  rules: [v.isMinLength('', 2)]
 }, {
   label: 'Phone',
   type: 'tel',
   name: 'phone',
-  disabled: false,
-  value: user.phone
+  value: user.phone,
+  rules: [v.isPhone(), v.isMinLength(`At least 2 digits required`, 2)]
 }];
 
 export default class EditProfilePage extends Profile {
   constructor() {
     super({
       id: 'editProfileForm',
+      validation: v,
       inputs: [
-        ...inputs.map(item => new Input(item)),
-        new Button({text: 'Submit', type: 'submit', classList: 'profile__submit'})
+        ...inputs.map(item => new Input({
+          ...item,
+          classList: 'dynamic-label login__input',
+          disabled: false,
+          bindContext: true,
+          events: {
+            focusout: function (e: Event) {
+              v.validateField(e.currentTarget as HTMLInputElement, this);
+            }
+          }
+        })),
+        new InputMsg({classList: 'form-validation t-red'}),
+        new Button({ text: 'Submit', type: 'submit', classList: 'profile__submit' })
       ],
       return: '/pages/profile/index.html'
     });
@@ -67,11 +83,3 @@ listenEvent('.modal-bg', 'click', function (e: Event) {
   }
   document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
 });
-
-
-// formProfile.onsubmit = (e) => {
-//   e.preventDefault();
-//   const formData = new FormData(formProfile);
-//   const value = Object.fromEntries(formData.entries());
-//   console.log(value);
-// };

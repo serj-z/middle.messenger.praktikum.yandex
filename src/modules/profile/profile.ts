@@ -6,6 +6,7 @@ import ChangeAvatar from './components/change-avatar/change-avatar';
 import Markup from '../../components/markup/markup';
 import ProfileForm from './components/input/profileForm';
 
+
 const tmpl: string = `main(data-child="inputs").profile
   div(data-child="avatar")
 
@@ -27,6 +28,7 @@ export default class Profile extends Block {
       inputs: [new ProfileForm({
         tag: props.tag,
         id: props.id,
+        validation: props.validation,
         children: {
           content: props.inputs
         }

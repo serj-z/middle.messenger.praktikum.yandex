@@ -1,7 +1,8 @@
+import InputMsg from '../../../../components/input/inputMsg';
 import Block from '../../../../scripts/block';
 import { Props } from '../../../../scripts/types'
 
-const tmpl: string = `span.input-profile__label #{label}
+const tmpl: string = `span(data-child="message").input-profile__label #{label}
 input(type=type, class='input-profile__field', value=\`\${value ? value : ''}\`, name=name, disabled=disabled)`;
 
 export default class Input extends Block {
@@ -9,6 +10,8 @@ export default class Input extends Block {
     super({
       tagName: 'label',
       classList: `input-profile ${props.classList ? props.classList : ''}`
-    }, tmpl, props);
+    }, tmpl, props, {
+      message: [new InputMsg({classList: 'input-profile__msg t-red'})]
+    });
   }
 }
