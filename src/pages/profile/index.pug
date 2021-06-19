@@ -1,21 +1,7 @@
-extends ../../modules/profile/profile
+extends ../../components/head/head
 
-include ../../modules/profile/components/input/input
-include ../../modules/profile/components/return/return
+block vars
+  - const title = "Profile";
 
-block inputs
-  .profile__inputs
-    +inputProfile('E-mail', 'email', 'email', true, user.email)
-    +inputProfile('Username', 'text', 'username', true, user.username)
-    +inputProfile('First name', 'text', 'firstname', true, user.firstname)
-    +inputProfile('Last name', 'text', 'lastname', true, user.lastname)
-    +inputProfile('Display name', 'text', 'displayname', true, user.displayname)
-    +inputProfile('Phone', 'tel', 'phone', true, user.phone)
-
-  .profile__actions
-    a(href="/pages/edit-profile/index.pug").profile__action.t-purple Edit profile
-    a(href="/pages/change-pass/index.pug").profile__action.t-purple Change password
-    a(href="/pages/login/index.pug").profile__action.t-red Log out
-
-block return
-  +return('/')
+block scripts
+  script(src='/pages/profile/profile.ts', defer)
