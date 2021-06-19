@@ -27,7 +27,7 @@ export default class ChatsPage extends Block {
 render('#root', new ChatsPage());
 
 
-const menu: HTMLElement = document.querySelector('.menu');
+const menu: HTMLElement = document.querySelector('.menu')!;
 
 listenEvent(menu, 'click', function (e: Event) {
   e.stopPropagation();

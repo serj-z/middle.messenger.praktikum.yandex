@@ -49,7 +49,6 @@ const inputs = [{
 const tmpl: string = `.login__form
   form(data-child="inputs button validation")#signupForm
     h1.login__headline Sign Up
-
   a(href="/pages/login/index.html").t-purple.login__link Log in`
 
 export default class SignupPage extends Block {
@@ -64,7 +63,7 @@ export default class SignupPage extends Block {
           const err = v.validateForm(this);
           if (err) {
             e.preventDefault();
-            this.children.validation[0].setProps({text: err});
+            this.children.validation[0].setProps({ text: err });
             return;
           }
           logFormEntries(this.getContent());
@@ -82,7 +81,7 @@ export default class SignupPage extends Block {
         }
       })),
       button: [new Button({ text: 'Sign Up', type: 'submit', classList: 'login__submit' })],
-      validation: [new InputMsg({classList: 'form-validation t-red'})]
+      validation: [new InputMsg({ classList: 'form-validation t-red' })]
     });
   }
 

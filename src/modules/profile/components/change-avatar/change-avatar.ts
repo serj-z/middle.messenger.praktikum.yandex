@@ -21,11 +21,11 @@ export default class ChangeAvatar extends Modal {
           this.parentElement.classList.remove('opened');
         },
         change: (event: Event) => {
-          const target = event.target as HTMLInputElement;
-          const file = target.files[0];
+          const target = event!.target as HTMLInputElement;
+          const file = target!.files![0];
           const label = document.querySelector('.avatar-label');
-          label.textContent = file.name;
-          label.classList.remove('t-purple');
+          label!.textContent = file.name;
+          label!.classList.remove('t-purple');
           console.log(file.name);
         }
       }

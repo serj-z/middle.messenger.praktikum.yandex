@@ -43,7 +43,7 @@ export default class Validation {
 
 
   validateField = (field: HTMLInputElement, component: Block): void => {
-    if(field.tagName !== 'input') field = field.querySelector('input');
+    if(field.tagName !== 'input') field = field.querySelector('input')!;
     if(!field) return;
     const label: string = component.props.label;
     const rules: Array<Validator> = component.props.rules;

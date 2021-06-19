@@ -7,7 +7,7 @@ export default class Contact extends Block {
     super({
       tagName: 'li',
       classList: 'contacts__item'
-    }, undefined, {
+    }, '', {
       ...props,
       events: {
         click: props.setChat

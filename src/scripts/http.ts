@@ -18,14 +18,14 @@ export default class HTTPTransport {
   };
 
   private queryStringify(data: any): string {
-    let query = '';
-  
-    for (const [key, value] of Object.entries(data)) {
-      const conj = query ? '&' : '?';
-      query += `${conj}${key}=${value}`;
+    if (typeof data !== 'object') {
+      throw new Error('Data must be object');
     }
-  
-    return query;
+
+    const keys = Object.keys(data);
+    return keys.reduce((result, key, index) => {
+      return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
+    }, '?');
   }
 
   private request = (url: string, options: RequestOptions, timeout: number = 5000): Promise<XMLHttpRequest> => {

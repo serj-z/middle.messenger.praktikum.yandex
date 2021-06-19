@@ -4,9 +4,9 @@ import { render as compile } from 'pug';
 
 export default abstract class Block {
 
-  private _element: HTMLElement = null;
-  private _meta: BlockMeta = null;
-  props: Props = {};
+  private _element: HTMLElement;
+  private _meta: BlockMeta;
+  props: Props;
   eventBus: Function;
 
   constructor(tag: Tag = { tagName: 'div' }, template: string, props: Props = {}, children: Children = {}) {
@@ -39,7 +39,7 @@ export default abstract class Block {
     if (tag.classList) this._element.className = tag.classList;
     if (tag.attrs) {
       Object.keys(tag.attrs).forEach((attr: string) => {
-        this._element.setAttribute(attr, tag.attrs[attr]);
+        if(tag.attrs) this._element.setAttribute(attr, tag.attrs[attr]);
       });
     }
   }
@@ -64,7 +64,7 @@ export default abstract class Block {
     this._render();
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(_oldProps: Props, _newProps: Props): boolean {
     return true;
   }
 
@@ -133,11 +133,11 @@ export default abstract class Block {
     const self: Block = this;
 
     return new Proxy(props, {
-      get(target: object, prop: string): any {
+      get(target: Record<string, any>, prop: string): any {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target: object, prop: string, value: any): boolean {
+      set(target: Record<string, any>, prop: string, value: any): boolean {
         const oldProps = { ...target };
         target[prop] = value;
         self.eventBus().emit(LifeCycles.FLOW_CDU, oldProps, target);

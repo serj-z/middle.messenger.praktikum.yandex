@@ -1,4 +1,4 @@
-import { checkAuth, render, listenEvent, logFormEntries } from '../../scripts/globalFunctions';
+import { checkAuth, render, listenEvent } from '../../scripts/globalFunctions';
 import user from '../../data/user.json';
 import Profile from '../../modules/profile/profile';
 import Input from '../../modules/profile/components/input/input';

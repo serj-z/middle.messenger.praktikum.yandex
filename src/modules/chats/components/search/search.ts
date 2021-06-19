@@ -12,7 +12,7 @@ export default class Search extends Block {
       classList: 'contacts__item contacts__search'
     }, tmpl, props);
 
-    this.getContent().querySelector('.contacts__search__input').addEventListener('input', function (): void {
+    this.getContent().querySelector('.contacts__search__input')?.addEventListener('input', function (): void {
       props.searchContacts(this.value);
     });
   }

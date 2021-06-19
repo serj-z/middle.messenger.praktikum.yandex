@@ -9,7 +9,7 @@ export default class Return extends Block {
     super({
       tagName: 'div',
       classList: 'return'
-    }, undefined, {
+    }, '', {
       link: props.link
     });
 

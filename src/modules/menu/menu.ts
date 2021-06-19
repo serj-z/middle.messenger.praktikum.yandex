@@ -29,9 +29,9 @@ const items = [
     events: {
       click: (e: Event) => {
         e.stopPropagation();
-        const elem: HTMLElement = document.querySelector('.add-contact');
+        const elem: HTMLElement = document.querySelector('.add-contact')!;
         elem.classList.add('opened');
-        elem.parentElement.classList.add('opened');
+        elem.parentElement!.classList.add('opened');
       }
     }
   },
@@ -58,7 +58,7 @@ export default class MenuItems extends Block {
         events: {
           click: (e: Event) => {
             e.stopPropagation();
-            document.querySelector('.menu').classList.remove("opened");
+            document.querySelector('.menu')?.classList.remove("opened");
           }
         }
       })]

@@ -8,8 +8,8 @@ export default class Contacts extends Block {
   constructor(props: Props) {
     super({
       tagName: 'li'
-    }, undefined, props, {
-      contact: props.chats.map(chat => new Contact({
+    }, '', props, {
+      contact: props.chats.map((chat: any) => new Contact({
         ...chat,
         setChat: () => this.setProps({chatId: chat.id})
       }))

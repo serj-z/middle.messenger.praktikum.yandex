@@ -3,7 +3,7 @@ import Search from './components/search/search';
 import chats from '../../data/chats.json';
 import Contacts from './components/contact/contacts';
 import Chat from './components/chat/chat';
-import { Props } from '../../scripts/types';
+import { ChatInfo, Props } from '../../scripts/types';
 import { listenEvent } from '../../scripts/globalFunctions';
 import Contact from './components/contact/contact';
 
@@ -32,8 +32,8 @@ export default class Chats extends Block {
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
     if (oldProps.search !== newProps.search) {
-      const filteredChats = chats.filter(item => item.name.toLowerCase().includes(newProps.search.toLowerCase()));
-      this.contacts.setChildren('contact', filteredChats.map(chat => new Contact({
+      const filteredChats = chats.filter((item: ChatInfo) => item.name.toLowerCase().includes(newProps.search.toLowerCase()));
+      this.contacts.setChildren('contact', filteredChats.map((chat: ChatInfo) => new Contact({
         ...chat,
         setChat: () => this.contacts.setProps({ chatId: chat.id })
       })));
@@ -44,6 +44,6 @@ export default class Chats extends Block {
 
 listenEvent(window, 'click', (e: Event) => {
   e.stopPropagation();
-  const attach: HTMLElement = document.querySelector('.compose__attach-options')
+  const attach: HTMLElement = document.querySelector('.compose__attach-options')!;
   if (attach) attach.classList.remove("opened");
 });

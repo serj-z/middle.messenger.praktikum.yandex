@@ -27,8 +27,8 @@ export default class Compose extends Block {
       events: {
         submit: (e: Event) => {
           e.preventDefault();
-          const formMessage: HTMLFormElement = this.element.querySelector('#formMessage');
-          if(!formMessage.sendMessage.value) return;
+          const formMessage: HTMLFormElement | null = this.element.querySelector('#formMessage');
+          if(!formMessage?.sendMessage.value) return;
           logFormEntries(formMessage);
         }
       }
@@ -40,7 +40,7 @@ export default class Compose extends Block {
         events: {
           click: (e: Event) => {
             e.stopPropagation();
-            document.querySelector('.compose__attach-options').classList.toggle("opened");
+            document.querySelector('.compose__attach-options')?.classList.toggle("opened");
           }
         }
       })]

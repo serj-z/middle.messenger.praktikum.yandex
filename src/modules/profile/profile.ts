@@ -40,9 +40,9 @@ export default class Profile extends Block {
           displayname: user.displayname,
           events: {
             click: () => {
-              const modal: HTMLElement = document.querySelector('.change-avatar');
+              const modal: HTMLElement = document.querySelector('.change-avatar')!;
               modal.classList.add('opened');
-              modal.parentElement.classList.add('opened');
+              modal.parentElement!.classList.add('opened');
             }
           }
         }

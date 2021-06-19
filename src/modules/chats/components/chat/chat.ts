@@ -1,6 +1,6 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
 import Block from '../../../../scripts/block';
-import { Props } from '../../../../scripts/types';
+import { ChatInfo, Props } from '../../../../scripts/types';
 import Compose from '../compose/compose';
 import { render as compile } from 'pug';
 import messages from '../../../../data/messages.json';
@@ -11,7 +11,7 @@ export default class Chat extends Block {
     super({
       tagName: 'div',
       classList: 'chat'
-    }, undefined, props, {
+    }, '', props, {
       deleteChat: [new IconButton({
         img: 'delete.svg',
         type: 'button',
@@ -19,9 +19,9 @@ export default class Chat extends Block {
         events: {
           click: (e: Event) => {
             e.stopPropagation();
-            const elem: HTMLElement = document.querySelector('.delete-chat');
+            const elem: HTMLElement = document.querySelector('.delete-chat')!;
             elem.classList.add('opened');
-            elem.parentElement.classList.add('opened');
+            elem.parentElement!.classList.add('opened');
           }
         }
       })],
@@ -34,7 +34,7 @@ export default class Chat extends Block {
     let chatProps = null;
     if (this.props.chatId) {
 
-      const contact = contacts.find(obj => obj.id === this.props.chatId);
+      const contact = contacts.find((obj: ChatInfo) => obj.id === this.props.chatId);
       const contactMessages = messages[this.props.chatId];
       chatProps = {
         contact,
@@ -63,6 +63,6 @@ export default class Chat extends Block {
       template = 'p.chat__placeholder Select a chat to send a message';
     }
 
-    return compile(template, chatProps);
+    return compile(template, chatProps as any);
   }
 }
