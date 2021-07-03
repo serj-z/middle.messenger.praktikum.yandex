@@ -4,6 +4,11 @@
   opacity: 0;
   transition: 0.3s;
   visibility: hidden;
+
+  &.opened {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .modal-bg {
@@ -25,16 +30,6 @@
   width: 340px;
   padding: 40px 30px;
   max-height: 90%;
-
-  &.opened {
-    visibility: visible;
-    opacity: 1;
-
-    & ~ .modal-bg {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
 
   &__title {
     text-align: center;

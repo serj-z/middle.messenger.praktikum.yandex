@@ -12,4 +12,9 @@
     font-weight: 500;
     color: $c_dark_grey;
   }
+
+  &__msg {
+    display: inline-block;
+    margin-left: 5px;
+  }
 }

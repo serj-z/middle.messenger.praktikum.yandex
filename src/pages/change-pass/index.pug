@@ -1,19 +1,7 @@
-extends ../../modules/profile/profile
+extends ../../components/head/head
 
-include ../../modules/profile/components/input/input
-include ../../modules/profile/components/return/return
-include ../../components/button/button
+block vars
+  - const title = "Change password";
 
-append scripts
-  script(src='/pages/change-pass/change-pass.js', defer)
-
-block inputs
-  form.profile__inputs#formPassword
-    +inputProfile('Old password', 'password', 'oldpass', false, '')
-    +inputProfile('New password', 'password', 'newpass', false, '')
-    +inputProfile('Confirm new password', 'password', 'confirmpass', false, '')
-
-    +button('Submit', 'Submit', 'profile__submit')
-
-block return
-  +return('/pages/profile/index.pug')
+block scripts
+  script(src='/pages/change-pass/change-pass.ts', defer)

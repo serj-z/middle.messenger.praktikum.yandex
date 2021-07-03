@@ -1,22 +1,7 @@
-extends ../../modules/profile/profile
+extends ../../components/head/head
 
-include ../../modules/profile/components/input/input
-include ../../modules/profile/components/return/return
-include ../../components/button/button
+block vars
+  - const title = "Edit profile";
 
-append scripts
-  script(src='/pages/edit-profile/edit-profile.js', defer)
-
-block inputs
-  form.profile__inputs#formProfile
-    +inputProfile('E-mail', 'email', 'email', false, user.email)
-    +inputProfile('Username', 'text', 'username', false, user.username)
-    +inputProfile('First name', 'text', 'firstname', false, user.firstname)
-    +inputProfile('Last name', 'text', 'lastname', false, user.lastname)
-    +inputProfile('Display name', 'text', 'displayname', false, user.displayname)
-    +inputProfile('Phone', 'tel', 'phone', false, user.phone)
-
-    +button('Submit', 'Submit', 'profile__submit')
-
-block return
-  +return('/pages/profile/index.pug')
+block scripts
+  script(src='/pages/edit-profile/edit-profile.ts', defer)
