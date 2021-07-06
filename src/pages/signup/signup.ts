@@ -1,11 +1,11 @@
-import { checkAuth, render, logFormEntries } from '../../scripts/globalFunctions';
-import user from '../../data/user.json';
+import { logFormEntries } from '../../scripts/globalFunctions';
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
 import Block from '../../scripts/block';
 import Validation from '../../scripts/validation';
-import { PassTypes } from '../../scripts/types';
+import { PassTypes, Paths } from '../../scripts/types';
 import InputMsg from '../../components/input/inputMsg';
+import Link from '../../components/link/link';
 
 const v = new Validation('inputs', 'message');
 
@@ -46,10 +46,9 @@ const inputs = [{
   rules: [v.isConfirmPassword(), v.isMinLength('', 5)]
 }];
 
-const tmpl: string = `.login__form
+const tmpl: string = `.login__form(data-child="link")
   form(data-child="inputs button validation")#signupForm
-    h1.login__headline Sign Up
-  a(href="/pages/login/index.html").t-purple.login__link Log in`
+    h1.login__headline Sign Up`
 
 export default class SignupPage extends Block {
   constructor() {
@@ -81,13 +80,8 @@ export default class SignupPage extends Block {
         }
       })),
       button: [new Button({ text: 'Sign Up', type: 'submit', classList: 'login__submit' })],
-      validation: [new InputMsg({ classList: 'form-validation t-red' })]
+      validation: [new InputMsg({ classList: 'form-validation t-red' })],
+      link: [new Link({ text: 'Log in', classList: 't-purple login__link', path: Paths.LOGIN })]
     });
   }
-
-  componentDidMount() {
-    checkAuth(user.loggedin);
-  }
 }
-
-render('#root', new SignupPage());

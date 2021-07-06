@@ -90,14 +90,14 @@ export type HTTPOptions = {
   data: any
 };
 
-export enum LifeCycles {
+export const enum LifeCycles {
   INIT = "init",
   FLOW_CDM = "flow:component-did-mount",
   FLOW_CDU = "flow:component-did-update",
   FLOW_RENDER = "flow:render"
 }
 
-export enum Methods {
+export const enum Methods {
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
@@ -108,8 +108,23 @@ export type ValidationRule = (val: string) => boolean;
 export type Validator = (val: string) => string;
 export type MakeValidator = (msg?: string, arg?: any) => Validator;
 
-export enum PassTypes {
+export const enum PassTypes {
   pass,
   oldPass,
   confirmPass
+}
+
+export interface Constructable<T> {
+  new(...args: any): T;
+}
+
+export enum Paths {
+  ROOT = "/",
+  LOGIN = "/login",
+  SIGNUP = "/signup",
+  EDIT_PROFILE = "/edit-profile",
+  CHANGE_PASS = "/change-pass",
+  PROFILE = "/profile",
+  NOT_FOUND = "/404",
+  SERVER_ERROR = "/500"
 }

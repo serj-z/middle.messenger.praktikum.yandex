@@ -10,7 +10,7 @@ export default class ProfileForm extends Block {
       attrs: {
         id: props.id || 'profileForm'
       }
-    }, `div(data-child="content")`, {
+    }, `div(data-child="content")${props.children.actions ? '\ndiv(data-child="actions").profile__actions' : ''}`, {
       bindContext: true,
       events: {
         submit: function (e: Event) {

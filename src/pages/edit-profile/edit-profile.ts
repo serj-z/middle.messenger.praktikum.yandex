@@ -1,10 +1,10 @@
-import { checkAuth, render, listenEvent } from '../../scripts/globalFunctions';
 import user from '../../data/user.json';
 import Profile from '../../modules/profile/profile';
 import Input from '../../modules/profile/components/input/input';
 import Button from '../../components/button/button';
 import Validation from '../../scripts/validation';
 import InputMsg from '../../components/input/inputMsg';
+import { Paths } from '../../scripts/types';
 
 const v = new Validation('content', 'message');
 
@@ -63,23 +63,17 @@ export default class EditProfilePage extends Profile {
             }
           }
         })),
-        new InputMsg({classList: 'form-validation t-red'}),
+        new InputMsg({ classList: 'form-validation t-red' }),
         new Button({ text: 'Submit', type: 'submit', classList: 'profile__submit' })
       ],
-      return: '/pages/profile/index.html'
+      return: Paths.PROFILE
     });
-  }
-
-  componentDidMount() {
-    checkAuth(user.loggedin);
   }
 }
 
-render('#root', new EditProfilePage());
-
-listenEvent('.modal-bg', 'click', function (e: Event) {
-  if (e.target !== this) {
-    return;
-  }
-  document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
-});
+// listenEvent('.modal-bg', 'click', function (e: Event) {
+//   if (e.target !== this) {
+//     return;
+//   }
+//   document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
+// });

@@ -6,10 +6,6 @@ export function render(query: string, block: Block): Element {
   return root;
 }
 
-export function checkAuth(loggedin: boolean): void {
-  if(!loggedin) location.href = '/pages/login/index.html';
-}
-
 export function listenEvent(selector: any, event: string, handler: Function): void {
   const elems = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
   if (!elems.length) {

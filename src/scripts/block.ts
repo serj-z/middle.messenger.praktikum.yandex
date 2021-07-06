@@ -160,4 +160,8 @@ export default abstract class Block {
   hide(): void {
     this.getContent().style.display = 'none';
   }
+
+  remove(): void {
+    this.getContent().remove();
+  }
 }

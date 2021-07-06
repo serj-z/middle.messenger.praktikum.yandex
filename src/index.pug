@@ -1,4 +1,11 @@
-extends ./components/head/head
-
-block scripts
-  script(src='/mockRouter.ts', defer)
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+    title Messenger
+    link(rel="icon" href="/static/img/favicon.png" type="image/png")
+    link(rel="stylesheet" href="/main.scss")
+    script(src='/main.ts', defer)
+  body#root
