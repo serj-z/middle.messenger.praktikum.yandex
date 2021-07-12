@@ -1,5 +1,5 @@
 import Block from '../../scripts/block';
-import { Props } from '../../scripts/types';
+import { Props } from '../../scripts/dto/types';
 import Button from '../button/button';
 
 const tmpl: string = `div(data-child='button').modal__container

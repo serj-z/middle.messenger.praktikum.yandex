@@ -1,6 +1,6 @@
 import Block from '../../scripts/block';
 import Link from '../../components/link/link';
-import { Paths } from '../../scripts/types';
+import { Paths } from '../../scripts/dto/types';
 
 const tmpl = `.error__wrap(data-child="link")
   img(src="/500.svg", alt=title).error__img

@@ -1,10 +1,10 @@
 import Block from '../../scripts/block';
 import IconButton from '../../components/icon-btn/iconBtn';
 import user from '../../data/user.json';
-import { Paths } from '../../scripts/types';
+import { Paths } from '../../scripts/dto/types';
 import Link from '../../components/link/link';
 import Markup from '../../components/markup/markup';
-import { listenEvent } from '../../scripts/globalFunctions';
+import { listenEvent, logout } from '../../scripts/globalFunctions';
 
 const tmpl: string = `img(src=img, alt="user", class="menu__img")
 
@@ -49,7 +49,19 @@ export default class MenuItems extends Block {
             }
           }
         }),
-        new Link({ text: '', classList: 'menu__item menu__log-out', path: Paths.LOGIN, template: 'img(src="/log-out.svg", alt="Log out").menu__item__img\nspan Log out' }),
+        new Markup({
+          tag: 'a',
+          classList: 'menu__item menu__log-out',
+          template: 'img(src="/log-out.svg", alt="Log out").menu__item__img\nspan Log out',
+          props: {
+            events: {
+              click: async (e: Event) => {
+                e.preventDefault();
+                logout();
+              }
+            }
+          }
+        }),
       ],
       close: [new IconButton({
         type: 'button',

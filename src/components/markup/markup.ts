@@ -1,5 +1,5 @@
 import Block from '../../scripts/block';
-import { Props } from '../../scripts/types';
+import { Props } from '../../scripts/dto/types';
 
 export default class Markup extends Block {
   constructor(props: Props) {

@@ -1,6 +1,6 @@
 import Block from "../block";
 import { render } from "../globalFunctions";
-import { Constructable } from "../types";
+import { Constructable, State } from "../dto/types";
 
 
 export default class Route {
@@ -33,10 +33,15 @@ export default class Route {
     return pathname === this._pathname;
   }
 
+  setState(state: State) {
+    this._block.setProps({ state });
+  }
+
   render() {
     if (!this._block) {
       this._block = new this._blockClass();
     }
+    this._block.componentDidMount();
     render(this._props.rootQuery, this._block);
   }
 }

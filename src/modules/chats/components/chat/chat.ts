@@ -1,6 +1,6 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
 import Block from '../../../../scripts/block';
-import { ChatInfo, Props } from '../../../../scripts/types';
+import { ChatInfo, Props } from '../../../../scripts/dto/types';
 import Compose from '../compose/compose';
 import { render as compile } from 'pug';
 import messages from '../../../../data/messages.json';

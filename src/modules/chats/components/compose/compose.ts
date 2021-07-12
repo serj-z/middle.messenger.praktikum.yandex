@@ -1,6 +1,6 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
 import Block from '../../../../scripts/block';
-import { logFormEntries } from '../../../../scripts/globalFunctions';
+import { getFormEntries } from '../../../../scripts/globalFunctions';
 
 const tmpl: string = `form(method="post").compose#formMessage
   
@@ -29,7 +29,7 @@ export default class Compose extends Block {
           e.preventDefault();
           const formMessage: HTMLFormElement | null = this.element.querySelector('#formMessage');
           if(!formMessage?.sendMessage.value) return;
-          logFormEntries(formMessage);
+          getFormEntries(formMessage);
         }
       }
     }, {

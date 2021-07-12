@@ -1,5 +1,5 @@
 import Block from '../../../../scripts/block';
-import { Props } from '../../../../scripts/types';
+import { Props } from '../../../../scripts/dto/types';
 import { render as compile } from 'pug';
 import Contact from './contact';
 import { chat } from '../../chats';

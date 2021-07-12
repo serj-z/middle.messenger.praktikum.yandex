@@ -3,7 +3,7 @@ import Search from './components/search/search';
 import chats from '../../data/chats.json';
 import Contacts from './components/contact/contacts';
 import Chat from './components/chat/chat';
-import { ChatInfo, Props } from '../../scripts/types';
+import { ChatInfo, Props } from '../../scripts/dto/types';
 import { listenEvent } from '../../scripts/globalFunctions';
 import Contact from './components/contact/contact';
 

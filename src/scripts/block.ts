@@ -1,5 +1,5 @@
 import EventBus from './eventBus';
-import { BlockMeta, Props, Children, LifeCycles, Tag } from './types';
+import { BlockMeta, Props, Children, LifeCycles, Tag } from './dto/types';
 import { render as compile } from 'pug';
 
 export default abstract class Block {
@@ -39,7 +39,7 @@ export default abstract class Block {
     if (tag.classList) this._element.className = tag.classList;
     if (tag.attrs) {
       Object.keys(tag.attrs).forEach((attr: string) => {
-        if(tag.attrs) this._element.setAttribute(attr, tag.attrs[attr]);
+        if(tag.attrs && tag.attrs[attr]) this._element.setAttribute(attr, tag.attrs[attr]);
       });
     }
   }
@@ -50,7 +50,7 @@ export default abstract class Block {
   }
 
   private _componentDidMount(): void {
-    this.componentDidMount();
+    // this.componentDidMount();
     this.eventBus().emit(LifeCycles.FLOW_RENDER);
   }
 
@@ -76,9 +76,10 @@ export default abstract class Block {
     Object.assign(this.props, nextProps);
   };
 
-  setChildren = (elem: string, newChildren: Array<Block>): void => {
+  setChildren = (elem: string, newChildren: Array<Block>, callback?: Function): void => {
     this._meta.children[elem] = newChildren;
     this._render();
+    if(callback) callback();
   };
 
   private _addEvents(): void {

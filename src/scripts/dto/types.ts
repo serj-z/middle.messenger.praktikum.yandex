@@ -1,4 +1,4 @@
-import Block from "./block";
+import Block from "../block";
 
 export type ChatInfo = {
   id: string,
@@ -78,14 +78,14 @@ export interface IEventBus {
 }
 
 export type RequestOptions = {
-  headers: Record<string, string>,
+  headers?: Record<string, string>,
   method: Methods,
   timeout?: number,
   data: any
 };
 
 export type HTTPOptions = {
-  headers: Record<string, string>,
+  headers?: Record<string, string>,
   timeout?: number,
   data: any
 };
@@ -128,3 +128,5 @@ export enum Paths {
   NOT_FOUND = "/404",
   SERVER_ERROR = "/500"
 }
+
+export type State = Record<string, any> | null;

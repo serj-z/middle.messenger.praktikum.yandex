@@ -1,4 +1,4 @@
-import { IEventBus, Listener } from './types';
+import { IEventBus, Listener } from './dto/types';
 
 export default class EventBus implements IEventBus {
 

@@ -1,6 +1,6 @@
 import Block from '../../scripts/block';
 import { router } from '../../main';
-import { Props } from '../../scripts/types';
+import { Props } from '../../scripts/dto/types';
 
 export default class Link extends Block {
   constructor(props: Props) {

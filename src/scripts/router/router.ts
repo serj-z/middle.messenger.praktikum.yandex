@@ -1,14 +1,16 @@
 import Route from "./route";
 import Block from "../block";
-import { Constructable, Paths } from "../types";
+import { Constructable, Paths, State } from "../dto/types";
+import { checkAuth } from "../globalFunctions";
 
-class Router {
+export default class Router {
 
   routes: Array<Route>;
   history: History;
   private _currentRoute: Route | null;
   private _rootQuery: string;
   private static __instance: Router;
+  private _loggedIn: boolean;
 
 
   constructor(rootQuery: string) {
@@ -20,28 +22,29 @@ class Router {
     this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
+    this._loggedIn = false;
 
     Router.__instance = this;
   }
 
   use(pathname: string, block: Constructable<Block>): Router {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery });
-
     this.routes.push(route);
-
     return this;
   }
 
-  start(): void {
+  async start(): Promise<void> {
     window.onpopstate = ((event: PopStateEvent) => {
       const w = event.currentTarget as Window;
-      this._onRoute(w.location.pathname);
+      if(!this._loggedIn && (w.location.pathname !== Paths.LOGIN && w.location.pathname !== Paths.SIGNUP)) return;
+      this._onRoute(w.location.pathname, event.state);
     }).bind(this);
 
+    await checkAuth();
     this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname: string) {
+  _onRoute(pathname: string, state: State = null) {
     const route = this.getRoute(pathname);
     if (!route) {
       this.go(Paths.NOT_FOUND);
@@ -54,11 +57,17 @@ class Router {
 
     this._currentRoute = route;
     route.render();
+    if (state) route.setState(state);
   }
 
-  go(pathname: string): void {
-    this.history.pushState({}, '', pathname);
-    this._onRoute(pathname);
+  go(pathname: string, state: State = null): void {
+    const triggerPopState: PopStateEvent = new PopStateEvent('popstate', { state });
+    this.history.pushState(state, '', pathname);
+    dispatchEvent(triggerPopState);
+  }
+  
+  setLoggedIn(isLoggedIn: boolean): void {
+    this._loggedIn = isLoggedIn;
   }
 
   back(): void {
@@ -73,5 +82,3 @@ class Router {
     return this.routes.find(route => route.match(pathname));
   }
 }
-
-export default Router;

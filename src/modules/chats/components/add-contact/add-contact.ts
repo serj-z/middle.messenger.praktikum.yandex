@@ -1,6 +1,6 @@
 import Input from '../../../../components/input/input';
 import Modal from '../../../../components/modal/modal';
-import { logFormEntries } from '../../../../scripts/globalFunctions';
+import { getFormEntries } from '../../../../scripts/globalFunctions';
 
 export default class AddContact extends Modal {
   constructor() {
@@ -17,7 +17,7 @@ export default class AddContact extends Modal {
       events: {
         submit: function (e: Event) {
           e.preventDefault();
-          logFormEntries(this);
+          getFormEntries(this);
           this.classList.remove('opened');
           this.parentElement.classList.remove('opened');
         }

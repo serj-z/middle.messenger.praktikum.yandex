@@ -7,11 +7,9 @@ import ChangePassPage from './pages/change-pass/change-pass';
 import ProfilePage from './pages/profile/profile';
 import Page404 from './pages/404/404';
 import Page500 from './pages/500/500';
-import user from './data/user.json';
-import { Paths } from './scripts/types';
+import { Paths } from './scripts/dto/types';
 
-
-export const router = new Router("#root");
+export const router = new Router('#root');
 
 router
   .use(Paths.ROOT, ChatsPage)
@@ -23,6 +21,3 @@ router
   .use(Paths.NOT_FOUND, Page404)
   .use(Paths.SERVER_ERROR, Page500)
   .start();
-
-
-if(!user.loggedin) router.go(Paths.LOGIN);

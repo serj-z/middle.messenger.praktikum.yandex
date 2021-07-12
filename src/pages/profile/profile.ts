@@ -1,11 +1,11 @@
-import user from "../../data/user.json";
 import Profile from "../../modules/profile/profile";
-import Input from "../../modules/profile/components/input/input";
 import Link from "../../components/link/link";
-import { Paths } from "../../scripts/types";
-import { listenEvent } from "../../scripts/globalFunctions";
+import { Paths } from "../../scripts/dto/types";
+import { logout } from "../../scripts/globalFunctions";
+import Markup from "../../components/markup/markup";
+import { userDTO } from "../../scripts/dto/dto";
 
-const inputs = [
+const inputs = (user: userDTO) => ([
   {
     label: 'E-mail',
     type: 'email',
@@ -16,30 +16,30 @@ const inputs = [
   {
     label: 'Username',
     type: 'text',
-    name: 'username',
+    name: 'login',
     disabled: true,
-    value: user.username
+    value: user.login
   },
   {
-    label: 'E-mail',
+    label: 'First name',
     type: 'text',
-    name: 'Firstname',
+    name: 'first_name',
     disabled: true,
-    value: user.firstname
+    value: user.first_name
   },
   {
-    label: 'Lastname',
+    label: 'Last name',
     type: 'text',
-    name: 'lastname',
+    name: 'second_name',
     disabled: true,
-    value: user.lastname
+    value: user.second_name
   },
   {
-    label: 'Displayname',
+    label: 'Display name',
     type: 'text',
-    name: 'displayname',
+    name: 'display_name',
     disabled: true,
-    value: user.displayname
+    value: user.display_name
   },
   {
     label: 'Phone',
@@ -48,28 +48,31 @@ const inputs = [
     disabled: true,
     value: user.phone
   }
-];
-
-const actions = [
-  { text: 'Edit profile', classList: 'profile__action t-purple', path: Paths.EDIT_PROFILE },
-  { text: 'Change password', classList: 'profile__action t-purple', path: Paths.CHANGE_PASS },
-  { text: 'Log out', classList: 'profile__action t-red', path: Paths.LOGIN }
-]
+]);
 
 export default class ProfilePage extends Profile {
   constructor() {
     super({
       tag: 'div',
-      inputs: inputs.map((item) => new Input(item)),
-      actions: actions.map((item) => new Link(item)),
+      inputs: inputs,
+      actions: [
+        new Link({ text: 'Edit profile', classList: 'profile__action t-purple', path: Paths.EDIT_PROFILE }),
+        new Link({ text: 'Change password', classList: 'profile__action t-purple', path: Paths.CHANGE_PASS }),
+        new Markup({
+          tag: 'a',
+          classList: 'profile__action t-red',
+          template: 'span Log out',
+          props: {
+            events: {
+              click: async (e: Event) => {
+                e.preventDefault();
+                logout();
+              }
+            }
+          }
+        })
+      ],
       return: Paths.ROOT
-    });
-
-    const modalBg: HTMLElement = this.getContent().querySelector('.modal-bg')!;
-
-    listenEvent(modalBg, 'click', (e: Event) => {
-      if (e.target !== modalBg) return;
-      document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
     });
   }
 }

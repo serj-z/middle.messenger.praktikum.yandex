@@ -1,5 +1,5 @@
 import Block from "./block";
-import { MakeValidator, PassTypes, ValidationRule, Validator } from "./types";
+import { MakeValidator, PassTypes, ValidationRule, Validator } from "./dto/types";
 
 export default class Validation {
   invalidFields: Array<string> = [];
@@ -47,6 +47,7 @@ export default class Validation {
     if(!field) return;
     const label: string = component.props.label;
     const rules: Array<Validator> = component.props.rules;
+    if(!rules?.length) return;
 
     let errors: Array<string> = [];
     rules.forEach((rule) => {
