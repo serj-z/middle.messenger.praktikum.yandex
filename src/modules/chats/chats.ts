@@ -1,42 +1,38 @@
 import Block from '../../scripts/block';
 import Search from './components/search/search';
-import chats from '../../data/chats.json';
 import Contacts from './components/contact/contacts';
 import Chat from './components/chat/chat';
-import { ChatInfo, Props } from '../../scripts/dto/types';
-import { listenEvent } from '../../scripts/globalFunctions';
-import Contact from './components/contact/contact';
+import { Props } from '../../scripts/dto/types';
+import { equalObjectsShallow, listenEvent } from '../../scripts/globalFunctions';
 
 const tmpl: string = `.chats(data-child="chat")
   ul.contacts(data-child="contacts")`;
-export const chat = new Chat({ chatId: undefined });
+export const chat = new Chat({ user: {}, chat: {} });
 
 export default class Chats extends Block {
   contacts: Contacts;
 
-  constructor() {
-    const contacts = new Contacts({ chats, search: undefined });
-
+  constructor(props: Props) {
     super({
       tagName: 'div',
       classList: 'chats'
-    }, tmpl, {}, {
+    }, tmpl, {
+      user: {},
+      search: ''
+    }, {
       contacts: [new Search({
-        searchContacts: (search: string) => this.setProps({ search })
-      }), contacts],
+        contacts: props.contacts
+      }), props.contacts],
       chat: [chat]
     });
 
-    this.contacts = contacts;
+    this.contacts = props.contacts;
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    if (oldProps.search !== newProps.search) {
-      const filteredChats = chats.filter((item: ChatInfo) => item.name.toLowerCase().includes(newProps.search.toLowerCase()));
-      this.contacts.setChildren('contact', filteredChats.map((chat: ChatInfo) => new Contact({
-        ...chat,
-        setChat: () => this.contacts.setProps({ chatId: chat.id })
-      })));
+    if (!equalObjectsShallow(oldProps.user, newProps.user)) {
+      this.contacts.setProps({ user: newProps.user });
+      chat.setProps({ user: newProps.user });
     }
     return false;
   }

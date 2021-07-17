@@ -1,5 +1,6 @@
 import Block from '../../../../scripts/block';
 import { Props } from '../../../../scripts/dto/types';
+import { debounce } from '../../../../scripts/globalFunctions';
 
 const tmpl: string = `form.contacts__search__form
   label
@@ -12,8 +13,9 @@ export default class Search extends Block {
       classList: 'contacts__item contacts__search'
     }, tmpl, props);
 
-    this.getContent().querySelector('.contacts__search__input')?.addEventListener('input', function (): void {
-      props.searchContacts(this.value);
-    });
+    this.getContent().querySelector('.contacts__search__input')!.addEventListener('input', debounce((e: Event): void => {
+      const target: HTMLInputElement = e.target as HTMLInputElement;
+      props.contacts.setProps({ search: target.value });
+    }, 500) as EventListener);
   }
 }

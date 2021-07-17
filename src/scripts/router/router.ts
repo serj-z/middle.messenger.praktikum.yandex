@@ -12,7 +12,6 @@ export default class Router {
   private static __instance: Router;
   private _loggedIn: boolean;
 
-
   constructor(rootQuery: string) {
     if (Router.__instance) {
       return Router.__instance;
@@ -34,17 +33,19 @@ export default class Router {
   }
 
   async start(): Promise<void> {
+
     window.onpopstate = ((event: PopStateEvent) => {
       const w = event.currentTarget as Window;
-      if(!this._loggedIn && (w.location.pathname !== Paths.LOGIN && w.location.pathname !== Paths.SIGNUP)) return;
+      if (!this._loggedIn && (w.location.pathname !== Paths.LOGIN && w.location.pathname !== Paths.SIGNUP)) return;
       this._onRoute(w.location.pathname, event.state);
     }).bind(this);
 
-    await checkAuth();
+    const isLoginPage = window.location.pathname === Paths.LOGIN || window.location.pathname === Paths.SIGNUP;
+    if (!isLoginPage) await checkAuth();
     this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname: string, state: State = null) {
+  private _onRoute(pathname: string, state: State = null) {
     const route = this.getRoute(pathname);
     if (!route) {
       this.go(Paths.NOT_FOUND);
@@ -65,7 +66,7 @@ export default class Router {
     this.history.pushState(state, '', pathname);
     dispatchEvent(triggerPopState);
   }
-  
+
   setLoggedIn(isLoggedIn: boolean): void {
     this._loggedIn = isLoggedIn;
   }

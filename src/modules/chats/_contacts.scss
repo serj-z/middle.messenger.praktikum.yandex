@@ -75,6 +75,11 @@
   }
 
   &__search {
+    position: sticky;
+    top: 0;
+    background-color: #fbfbfb;
+    z-index: 2;
+    
     label {
       cursor: text;
       padding: 18px;

@@ -27,16 +27,13 @@ export type Messages = {
 };
 
 export type User = {
-  username: string,
-  firstname: string,
-  lastname: string,
-  displayname: string,
+  first_name: string,
+  second_name: string,
+  avatar: string,
+  display_name?: string,
   email: string,
-  phone: string,
-  img: string,
-  loggedin: boolean
+  phone: string
 };
-
 
 export type BlockMeta = {
   tag: Tag,
@@ -94,7 +91,8 @@ export const enum LifeCycles {
   INIT = "init",
   FLOW_CDM = "flow:component-did-mount",
   FLOW_CDU = "flow:component-did-update",
-  FLOW_RENDER = "flow:render"
+  FLOW_RENDER = "flow:render",
+  FLOW_CWU = "flow:component-will-unmount"
 }
 
 export const enum Methods {

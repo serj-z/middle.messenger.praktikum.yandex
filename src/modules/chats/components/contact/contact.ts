@@ -1,6 +1,7 @@
 import Block from '../../../../scripts/block';
 import { Props } from '../../../../scripts/dto/types';
 import { render as compile } from 'pug';
+import { calcDateTime } from '../../../../scripts/globalFunctions';
 
 export default class Contact extends Block {
   constructor(props: Props) {
@@ -9,6 +10,7 @@ export default class Contact extends Block {
       classList: 'contacts__item'
     }, '', {
       ...props,
+      time: props.last_message ? calcDateTime(props.last_message.time) : '',
       events: {
         click: props.setChat
       }
@@ -16,18 +18,20 @@ export default class Contact extends Block {
   }
 
   render() {
-    const template = `img(src='/' + img, alt=name).contacts__item__img.contact-img
+    const template = `img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '/chat-placeholder.png', alt=title).contacts__item__img.contact-img
 .contacts__item__wrap
   .contacts__item__meta
-    h3.contacts__item__name #{name}
-    p.contacts__item__time #{time}
-  .contacts__item__message
-    p.contacts__item__text
-      if you
-        span You: 
-      | #{message}
-    if unread
-      .contacts__item__unread #{unread}
+    h3.contacts__item__name #{title}
+    if last_message
+      p.contacts__item__time #{time}
+  if last_message
+    .contacts__item__message
+      p.contacts__item__text
+        if user.login === last_message.user.login
+          span You: 
+        | #{last_message.content}
+      if unread_count
+        .contacts__item__unread #{unread_count}
     `;
     return compile(template, this.props);
   }

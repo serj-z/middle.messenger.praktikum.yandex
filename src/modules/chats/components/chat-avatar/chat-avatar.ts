@@ -1,18 +1,19 @@
 import Markup from '../../../../components/markup/markup';
 import Modal from '../../../../components/modal/modal';
-import { userDTO } from '../../../../scripts/dto/dto';
+import { chatDTO } from '../../../../scripts/dto/dto';
 import { Props } from '../../../../scripts/dto/types';
 import { httpPut } from '../../../../scripts/http/httpWrap';
+import { chat } from '../../chats';
 
-const template: string = `form(method="post")#formAvatar
+const template: string = `form(method="post")#chatAvatar
   label(for="avatar").avatar-label.t-purple Upload from your device
   input(type="file", accept="image/png, image/jpeg", name="avatar", id="avatar" hidden)`;
 
-export default class ChangeAvatar extends Modal {
+export default class ChatAvatar extends Modal {
   constructor(props: Props) {
     super({
-      title: 'Upload file',
-      classList: 'change-avatar',
+      title: 'Change chat image',
+      classList: 'chat-image',
       btnText: 'Change',
       content: [new Markup({
         template
@@ -27,10 +28,12 @@ export default class ChangeAvatar extends Modal {
           try {
             const data = new FormData();
             data.append('avatar', input.files[0]);
-            const res = await httpPut('/user/profile/avatar', { data });
-            const user: userDTO = JSON.parse(res);
-            if (user.avatar) {
-              props.setAvatar(user.avatar);
+            data.append('chatId', chat.props.chat.id);
+            const res = await httpPut('/chats/avatar', { data });
+            const chatObj: chatDTO = JSON.parse(res);
+            if (chatObj.avatar) {
+              chat.children.chatInfo[0].setProps({ chat: chatObj });
+              props.contacts.setProps({ search: '' })
               const label = document.querySelector('.avatar-label');
               label!.textContent = 'Upload from your device';
               label!.classList.add('t-purple');

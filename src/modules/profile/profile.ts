@@ -19,7 +19,7 @@ const tmpl: string = `main(data-child="inputs").profile
   div(data-child="modals")`;
 
 const avatar: string = `.profile__avatar
-  img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '/user-placeholder.png' alt=user.display_name class="profile__img")
+  img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '/user-placeholder.png' alt=user.login class="profile__img")
   .profile__avatar-change`;
 
 export default class Profile extends Block {

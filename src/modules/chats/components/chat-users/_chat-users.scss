@@ -1,0 +1,29 @@
+.chat-users {
+
+  &>li {
+    border-bottom: solid 1px #eee;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+
+    &__info {
+      margin: 0 10px;
+      text-align: left;
+    }
+
+    &__name {
+      font-size: 15px;
+    }
+
+    &__login {
+      color: #777;
+    }
+
+    &__btn {
+      margin-left: auto;
+    }
+  }
+}

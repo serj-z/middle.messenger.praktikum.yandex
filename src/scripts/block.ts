@@ -6,6 +6,7 @@ export default abstract class Block {
 
   private _element: HTMLElement;
   private _meta: BlockMeta;
+  private _initProps: string;
   props: Props;
   eventBus: Function;
 
@@ -17,6 +18,8 @@ export default abstract class Block {
       props,
       children
     };
+
+    this._initProps = JSON.stringify(props);
 
     this.props = this._makePropsProxy(props);
 
@@ -31,6 +34,7 @@ export default abstract class Block {
     eventBus.on(LifeCycles.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(LifeCycles.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(LifeCycles.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(LifeCycles.FLOW_CWU, this._componentWillUnmount.bind(this));
   }
 
   private _createResources(): void {
@@ -39,7 +43,7 @@ export default abstract class Block {
     if (tag.classList) this._element.className = tag.classList;
     if (tag.attrs) {
       Object.keys(tag.attrs).forEach((attr: string) => {
-        if(tag.attrs && tag.attrs[attr]) this._element.setAttribute(attr, tag.attrs[attr]);
+        if (tag.attrs && tag.attrs[attr]) this._element.setAttribute(attr, tag.attrs[attr]);
       });
     }
   }
@@ -50,7 +54,7 @@ export default abstract class Block {
   }
 
   private _componentDidMount(): void {
-    // this.componentDidMount();
+    this.componentDidMount();
     this.eventBus().emit(LifeCycles.FLOW_RENDER);
   }
 
@@ -79,7 +83,7 @@ export default abstract class Block {
   setChildren = (elem: string, newChildren: Array<Block>, callback?: Function): void => {
     this._meta.children[elem] = newChildren;
     this._render();
-    if(callback) callback();
+    if (callback) callback();
   };
 
   private _addEvents(): void {
@@ -87,7 +91,7 @@ export default abstract class Block {
 
     Object.keys(events).forEach((eventName: string): void => {
       let fn: EventListener = events[eventName];
-      if(this.props.bindContext) fn = fn.bind(this);
+      if (this.props.bindContext) fn = fn.bind(this);
       this._element.addEventListener(eventName, fn);
     });
   }
@@ -164,5 +168,16 @@ export default abstract class Block {
 
   remove(): void {
     this.getContent().remove();
+    this.eventBus().emit(LifeCycles.FLOW_CWU);
+  }
+
+  resetProps(): void {
+    this.setProps(JSON.parse(this._initProps));
+  }
+
+  componentWillUnmount(): void { }
+
+  private _componentWillUnmount(): void {
+    this.componentWillUnmount();
   }
 }
