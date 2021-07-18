@@ -2,6 +2,7 @@ import Block from '../../../../scripts/block';
 import { Props } from '../../../../scripts/dto/types';
 import { render as compile } from 'pug';
 import { calcDateTime } from '../../../../scripts/globalFunctions';
+import { chat } from '../../chats';
 
 export default class Contact extends Block {
   constructor(props: Props) {
@@ -9,10 +10,14 @@ export default class Contact extends Block {
       tagName: 'li',
       classList: 'contacts__item'
     }, '', {
+      lastSender: props.last_message?.user,
       ...props,
       time: props.last_message ? calcDateTime(props.last_message.time) : '',
       events: {
-        click: props.setChat
+        click: () => {
+          chat.setProps({ contact: this });
+          props.setChat();
+        }
       }
     });
   }
@@ -27,7 +32,7 @@ export default class Contact extends Block {
   if last_message
     .contacts__item__message
       p.contacts__item__text
-        if user.login === last_message.user.login
+        if user.login === lastSender.login
           span You: 
         | #{last_message.content}
       if unread_count

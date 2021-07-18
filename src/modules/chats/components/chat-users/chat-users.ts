@@ -41,6 +41,7 @@ export default class ChatUsers extends Block {
         }
       })]);
     }
+    chat.setProps({ users: newProps.users });
 
     newProps.users.splice(0, 0, currentUser);
 

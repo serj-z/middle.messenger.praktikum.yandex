@@ -6,13 +6,19 @@ import { httpGet, httpPost } from '../../../../scripts/http/httpWrap';
 import ChatInfo from './chat-info';
 import { chatUsersBlock } from '../chat-users/chat-users-modal';
 import { addUsersBlock } from '../add-user/add-users-modal';
-import { messageDTO } from '../../../../scripts/dto/dto';
+import { messageDTO, userDTO } from '../../../../scripts/dto/dto';
 import Message from './message';
 import { calcChatDate, getLocalTime } from '../../../../scripts/globalFunctions';
 
 export default class Chat extends Block {
 
   chatInfo: Block;
+  page: number;
+  perPage: number;
+  lastResponseChatId: number;
+  loadPage: EventListener;
+  lastDate: string;
+  lastSender: string;
 
   constructor(props: Props) {
 
@@ -35,10 +41,25 @@ export default class Chat extends Block {
     }, '', props, {
       chatInfo: [chatInfo],
       deleteChat: [],
-      compose: [new Compose()]
+      compose: [new Compose()],
+      messages: []
     });
 
     this.chatInfo = chatInfo;
+    this.perPage = 20;
+    this.page = 0;
+
+    this.loadPage = (): void => {
+      const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
+      const dialogContainer: HTMLElement = this.getContent().querySelector('.dialog__container')!;
+      if ((dialog.getBoundingClientRect().top - 100) < dialogContainer.getBoundingClientRect().top) {
+        this.props.socket.send(JSON.stringify({
+          content: (this.perPage * this.page).toString(),
+          type: 'get old',
+        }));
+        this.page++;
+      }
+    }
   }
 
   ping(socket: WebSocket): void {
@@ -46,6 +67,41 @@ export default class Chat extends Block {
       socket.send(JSON.stringify({ type: 'ping' }));
     }, 30000);
     socket.onclose = () => clearInterval(interval);
+  }
+
+  scrollBottom() {
+    const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
+    dialog.scrollTop = dialog.scrollHeight;
+  }
+
+  initChat(messages: Array<messageDTO>): void {
+    const messagesArray: Array<Props> = [];
+    for (let i = 0; i < messages.length; i++) {
+      const m: messageDTO = messages[i];
+      const nextMessage: messageDTO | undefined = messages[i + 1];
+      const dateFormattedNext = calcChatDate(nextMessage?.time);
+      const dateFormatted = calcChatDate(m.time);
+
+      const senderNext = nextMessage?.user_id;
+      const sender = m.user_id;
+
+      messagesArray.push({
+        message: m,
+        timeFormatted: getLocalTime(m.time),
+        user: this.props.user,
+        sender: sender === senderNext ? undefined : this.props.users.find((u: userDTO) => u.id === +m.user_id)
+      });
+      if (dateFormattedNext !== dateFormatted) messagesArray.push({ dateFormatted });
+    }
+    const lastMessage: messageDTO = messages[messages.length - 1];
+    this.lastDate = calcChatDate(lastMessage.time);
+    this.lastSender = lastMessage.user_id;
+
+    this.setChildren('messages', messagesArray.map((message: Props) => new Message(message)), () => {
+      this.scrollBottom();
+      const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
+      dialog.addEventListener('scroll', this.loadPage);
+    });
   }
 
   async getChatToken(chatId: number): Promise<string> {
@@ -60,18 +116,31 @@ export default class Chat extends Block {
     const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.props.user.id}/${chatId}/${token}`);
     this.ping(socket);
     this.setProps({ socket });
+    this.page = 0;
+    this.setChildren('messages', []);
+    this.children.compose[0].setProps({
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          const formMessage: HTMLFormElement = this.element.querySelector('#formMessage')!;
+          const content: string = formMessage.sendMessage.value.trim();
+          if (!content) return;
+          socket.send(JSON.stringify({
+            content,
+            type: 'message',
+          }));
+          formMessage.sendMessage.value = '';
+        }
+      }
+    });
     socket.addEventListener('open', () => {
       console.log('Соединение установлено');
 
       socket.send(JSON.stringify({
-        content: '0',
+        content: this.page.toString(),
         type: 'get old',
       }));
-
-      // socket.send(JSON.stringify({
-      //   content: 'Моё второе сообщение миру!',
-      //   type: 'message',
-      // }));
+      this.page++;
     });
 
     socket.addEventListener('close', event => {
@@ -87,26 +156,71 @@ export default class Chat extends Block {
     socket.addEventListener('message', event => {
       console.log('Получены данные', event.data);
       const res = JSON.parse(event.data);
-      if (!res.length) return;
-      const messages: Array<messageDTO> = res;
 
-      const messagesArray: Array<Props> = [];
-      for (let i = 0; i < messages.length; i++) {
-        const m: messageDTO = messages[i];
-        const dateFormattedNext: string = calcChatDate(messages[i + 1]?.time);
-        const dateFormatted: string = calcChatDate(m.time);
+      if (res.type !== 'message' && !res.length) return;
 
-        messagesArray.push({
-          message: messages[i],
-          timeFormatted: getLocalTime(messages[i].time),
-          user: this.props.user
-        });
-        if (dateFormattedNext !== dateFormatted) messagesArray.push({ dateFormatted });
+      if (this.lastResponseChatId !== chatId) {
+        this.initChat(res);
+        this.lastResponseChatId = chatId;
+        return;
       }
 
-      this.setChildren('messages', messagesArray.map((message: Props) => new Message(message)));
-      const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
-      dialog.scrollTop = dialog.scrollHeight;
+      if (res.length) {
+
+        if (res.length < this.perPage) {
+          const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
+          dialog.removeEventListener('scroll', this.loadPage);
+        }
+
+        const messages: Array<messageDTO> = res;
+        const fragment: DocumentFragment = document.createDocumentFragment();
+        for (let i = 0; i < messages.length; i++) {
+          const message: messageDTO = messages[i];
+          const nextMessage: messageDTO | undefined = messages[i + 1];
+          const dateFormattedNext = calcChatDate(nextMessage?.time);
+          const dateFormatted = calcChatDate(message.time);
+
+          const senderNext = nextMessage?.user_id;
+          const sender = message.user_id;
+
+          let elem: Message = new Message({
+            message,
+            timeFormatted: getLocalTime(message.time),
+            user: this.props.user,
+            sender: sender === senderNext ? undefined : this.props.users.find((u: userDTO) => u.id === +message.user_id)
+          });
+          this.appendChild('messages', elem);
+          fragment.append(elem.getContent());
+
+          if (dateFormattedNext !== dateFormatted) {
+            elem = new Message({ dateFormatted })
+            this.appendChild('messages', elem);
+            fragment.append(elem.getContent());
+            this.lastDate = dateFormatted;
+          }
+        }
+        const d: HTMLElement = this.getContent().querySelector('.chat-date:last-child')!;
+        if (d && this.lastDate !== d.innerText) d.remove();
+        this.getContent().querySelector('.dialog__container')!.append(fragment);
+        this.lastSender = messages[messages.length - 1].user_id;
+      } else {
+        const message: messageDTO = res;
+        const time: string = getLocalTime(message.time);
+        this.prependChild('messages', new Message({
+          message: message,
+          timeFormatted: time,
+          user: this.props.user,
+          sender: this.lastSender === message.user_id ? undefined : this.props.users.find((u: userDTO) => u.id === +message.user_id)
+        }), true);
+        this.scrollBottom();
+        this.props.contact.setProps({
+          lastSender: this.props.users.find((item: userDTO) => item.id === +message.user_id),
+          last_message: message,
+          time
+        })
+        this.lastSender = message.user_id;
+      }
+      this.lastResponseChatId = chatId;
     });
 
     socket.addEventListener('error', event => {
@@ -116,10 +230,6 @@ export default class Chat extends Block {
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
     if (oldProps.chat.id !== newProps.chat.id) {
-
-      if (this.props.socket) {
-        this.props.socket.close();
-      }
 
       this.chatInfo.setProps({ chat: newProps.chat });
       addUsersBlock.setProps({ chatId: newProps.chat.id });
@@ -138,6 +248,12 @@ export default class Chat extends Block {
       return true;
     }
     return false;
+  }
+
+  componentWillUnmount() {
+    if (this.props.socket) {
+      this.props.socket.close();
+    }
   }
 
   render() {

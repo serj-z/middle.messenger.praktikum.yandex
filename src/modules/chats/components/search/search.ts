@@ -11,7 +11,14 @@ export default class Search extends Block {
     super({
       tagName: 'li',
       classList: 'contacts__item contacts__search'
-    }, tmpl, props);
+    }, tmpl, {
+      ...props,
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+        }
+      }
+    });
 
     this.getContent().querySelector('.contacts__search__input')!.addEventListener('input', debounce((e: Event): void => {
       const target: HTMLInputElement = e.target as HTMLInputElement;

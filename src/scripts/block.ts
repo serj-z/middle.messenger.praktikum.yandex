@@ -78,13 +78,31 @@ export default abstract class Block {
     }
 
     Object.assign(this.props, nextProps);
-  };
+  }
 
   setChildren = (elem: string, newChildren: Array<Block>, callback?: Function): void => {
     this._meta.children[elem] = newChildren;
     this._render();
     if (callback) callback();
-  };
+  }
+
+  appendChild = (elem: string, newChild: Block, insertToDom?: boolean, callback?: Function): void => {
+    this._meta.children[elem].push(newChild);
+    if (insertToDom) {
+      const parent: HTMLElement = this.getContent().querySelector(`[data-child*=${elem}]`)!;
+      parent.append(newChild.getContent());
+    }
+    if (callback) callback();
+  }
+
+  prependChild = (elem: string, newChild: Block, insertToDom?: boolean, callback?: Function): void => {
+    this._meta.children[elem].push(newChild);
+    if (insertToDom) {
+      const parent: HTMLElement = this.getContent().querySelector(`[data-child*=${elem}]`)!;
+      parent.prepend(newChild.getContent());
+    }
+    if (callback) callback();
+  }
 
   private _addEvents(): void {
     const { events = {} } = this.props;
