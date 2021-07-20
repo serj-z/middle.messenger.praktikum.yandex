@@ -1,5 +1,5 @@
-import Block from '../../scripts/block';
-import { Props } from '../../scripts/types';
+import Block from '../../scripts/block/block';
+import { Props } from '../../scripts/dto/types';
 import Button from '../button/button';
 
 const tmpl: string = `div(data-child='button').modal__container
@@ -12,7 +12,7 @@ export default class Modal extends Block {
       tagName: props.tag || 'form',
       classList: `modal ${props.classList ? props.classList : ''}`
     }, tmpl, props, {
-      button: [new Button({text: props.btnText, type: 'submit', classList: 'modal__btn'})],
+      button: props.btnText ? [new Button({text: props.btnText, type: 'submit', classList: 'modal__btn'})] : [],
       content: props.content
     });
   }

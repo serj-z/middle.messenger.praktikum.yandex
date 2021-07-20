@@ -1,9 +1,11 @@
 import Markup from '../../../../components/markup/markup';
 import Modal from '../../../../components/modal/modal';
+import { Props } from '../../../../scripts/dto/types';
+import { httpDelete } from '../../../../scripts/http/httpWrap';
 import { chat } from '../../chats';
 
 export default class DeleteChat extends Modal {
-  constructor() {
+  constructor(props: Props) {
     super({
       title: 'Delete chat',
       classList: 'delete-chat',
@@ -12,9 +14,19 @@ export default class DeleteChat extends Modal {
         template: 'p Are you sure you want to delete the chat and remove the contact?'
       })],
       events: {
-        submit: function (e: Event) {
+        submit: async function (e: Event) {
           e.preventDefault();
-          chat.setProps({ chatId: undefined });
+          if(!chat.props.chat.id) return;
+          await httpDelete('/chats', {
+            data: {
+              chatId: chat.props.chat.id
+            },
+            headers: {
+              'Content-type': 'application/json; charset=utf-8'
+            }
+          })
+          chat.setProps({ chat: {} });
+          props.contacts.setProps({ search: '' });
           this.classList.remove('opened');
           this.parentElement.classList.remove('opened');
         }

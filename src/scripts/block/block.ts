@@ -1,11 +1,12 @@
-import EventBus from './eventBus';
-import { BlockMeta, Props, Children, LifeCycles, Tag } from './types';
+import EventBus from '../eventBus';
+import { BlockMeta, Props, Children, LifeCycles, Tag } from '../dto/types';
 import { render as compile } from 'pug';
 
 export default abstract class Block {
 
   private _element: HTMLElement;
   private _meta: BlockMeta;
+  private _initProps: string;
   props: Props;
   eventBus: Function;
 
@@ -17,6 +18,8 @@ export default abstract class Block {
       props,
       children
     };
+
+    this._initProps = JSON.stringify(props);
 
     this.props = this._makePropsProxy(props);
 
@@ -31,6 +34,7 @@ export default abstract class Block {
     eventBus.on(LifeCycles.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(LifeCycles.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(LifeCycles.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(LifeCycles.FLOW_CWU, this._componentWillUnmount.bind(this));
   }
 
   private _createResources(): void {
@@ -39,7 +43,7 @@ export default abstract class Block {
     if (tag.classList) this._element.className = tag.classList;
     if (tag.attrs) {
       Object.keys(tag.attrs).forEach((attr: string) => {
-        if(tag.attrs) this._element.setAttribute(attr, tag.attrs[attr]);
+        if (tag.attrs && tag.attrs[attr]) this._element.setAttribute(attr, tag.attrs[attr]);
       });
     }
   }
@@ -74,19 +78,38 @@ export default abstract class Block {
     }
 
     Object.assign(this.props, nextProps);
-  };
+  }
 
-  setChildren = (elem: string, newChildren: Array<Block>): void => {
+  setChildren = (elem: string, newChildren: Array<Block>, callback?: Function): void => {
     this._meta.children[elem] = newChildren;
     this._render();
-  };
+    if (callback) callback();
+  }
+
+  appendChild = (elem: string, newChild: Block, insertToDom?: boolean, callback?: Function): void => {
+    this._meta.children[elem].push(newChild);
+    if (insertToDom) {
+      const parent: HTMLElement = this.getContent().querySelector(`[data-child*=${elem}]`)!;
+      parent.append(newChild.getContent());
+    }
+    if (callback) callback();
+  }
+
+  prependChild = (elem: string, newChild: Block, insertToDom?: boolean, callback?: Function): void => {
+    this._meta.children[elem].push(newChild);
+    if (insertToDom) {
+      const parent: HTMLElement = this.getContent().querySelector(`[data-child*=${elem}]`)!;
+      parent.prepend(newChild.getContent());
+    }
+    if (callback) callback();
+  }
 
   private _addEvents(): void {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName: string): void => {
       let fn: EventListener = events[eventName];
-      if(this.props.bindContext) fn = fn.bind(this);
+      if (this.props.bindContext) fn = fn.bind(this);
       this._element.addEventListener(eventName, fn);
     });
   }
@@ -159,5 +182,20 @@ export default abstract class Block {
 
   hide(): void {
     this.getContent().style.display = 'none';
+  }
+
+  remove(): void {
+    this.getContent().remove();
+    this.eventBus().emit(LifeCycles.FLOW_CWU);
+  }
+
+  resetProps(): void {
+    this.setProps(JSON.parse(this._initProps));
+  }
+
+  componentWillUnmount(): void { }
+
+  private _componentWillUnmount(): void {
+    this.componentWillUnmount();
   }
 }

@@ -1,31 +1,36 @@
-import { checkAuth, render, logFormEntries } from '../../scripts/globalFunctions';
-import user from '../../data/user.json';
+import { getFormEntries } from '../../scripts/globalFunctions';
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import Validation from '../../scripts/validation';
-import { PassTypes } from '../../scripts/types';
+import { PassTypes, Paths } from '../../scripts/dto/types';
 import InputMsg from '../../components/input/inputMsg';
+import Link from '../../components/link/link';
+import { httpPost } from '../../scripts/http/httpWrap';
+import { router } from '../../main';
+import Notification from '../../components/notification/notification';
+import ModalsContainer from '../../components/modal/modalsContainer';
 
 const v = new Validation('inputs', 'message');
 
 const inputs = [{
   label: 'Username',
   type: 'text',
-  name: 'username',
+  name: 'login',
   rules: [v.isUsername(), v.isMinLength('', 5)]
 }, {
   label: 'Password',
   type: 'password',
-  name: 'pass',
+  name: 'password',
   rules: [v.isPassword('', PassTypes.pass), v.isMinLength('', 5)]
 }];
 
-const tmpl: string = `.login__form
+const tmpl: string = `.login__form(data-child="link")
   form(data-child="inputs button validation")#loginForm
     h1.login__headline Welcome
+div(data-child="modals")`;
 
-  a(href="/pages/signup/index.html").t-purple.login__link Sign Up`
+const modalsContainer = new ModalsContainer({});
 
 export default class LoginPage extends Block {
   constructor() {
@@ -35,14 +40,33 @@ export default class LoginPage extends Block {
     }, tmpl, {
       bindContext: true,
       events: {
-        submit: function (e: Event) {
+        submit: async function (e: Event) {
+          e.preventDefault();
           const err = v.validateForm(this);
           if (err) {
-            e.preventDefault();
             this.children.validation[0].setProps({ text: err });
             return;
           }
-          logFormEntries(this.getContent());
+          const data = getFormEntries(this.getContent().querySelector('#loginForm'));
+          const res: string = await httpPost('/auth/signin', {
+            data,
+            headers: {
+              'Content-type': 'application/json; charset=utf-8'
+            }
+          });
+          if (res === 'OK') {
+            router.setLoggedIn(true);
+            router.go(Paths.ROOT);
+          } else {
+            const resObj: Record<string, string> = JSON.parse(res);
+            modalsContainer.setProps({ classList: 'opened' });
+            modalsContainer.setChildren('modals', [new Notification({
+              title: 'Error',
+              btnText: 'Ok',
+              classList: 'opened',
+              text: resObj.reason
+            })]);
+          }
         }
       }
     }, {
@@ -59,13 +83,9 @@ export default class LoginPage extends Block {
         }))
       ],
       button: [new Button({ text: 'Log in', type: 'submit', classList: 'login__submit' })],
-      validation: [new InputMsg({classList: 'form-validation t-red'})]
+      validation: [new InputMsg({ classList: 'form-validation t-red' })],
+      link: [new Link({ text: 'Sign Up', classList: 't-purple login__link', path: Paths.SIGNUP })],
+      modals: [modalsContainer]
     });
   }
-
-  componentDidMount() {
-    checkAuth(user.loggedin);
-  }
 }
-
-render('#root', new LoginPage());

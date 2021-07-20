@@ -11,16 +11,30 @@
   &__close,
   &__user,
   &__list {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: .1s;
   }
 
   &__img {
     border-radius: 50%;
+    max-width: 50px;
+    max-height: 50px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: 0.3s;
   }
 
   &.opened {
     max-width: 300px;
     padding: 40px 50px;
+
+    .menu__img {
+      max-width: 150px;
+      max-height: 150px;
+    }
 
     .menu__burger {
       display: none;
@@ -29,7 +43,8 @@
     .menu__close,
     .menu__user,
     .menu__list {
-      display: block;
+      visibility: visible;
+      opacity: 1;
     }
   }
 

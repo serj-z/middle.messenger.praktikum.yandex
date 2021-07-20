@@ -44,6 +44,9 @@ button {
 .contact-img {
   width: 47px;
   border-radius: 50%;
+  height: 47px;
+  object-position: center;
+  object-fit: cover;
 }
 
 .t-purple {
@@ -56,4 +59,15 @@ button {
 
 .form-validation {
   margin: 5px 0;
+}
+
+.avatar-label,
+a {
+  cursor: pointer;
+}
+
+.avatar-label {
+  &:hover {
+    text-decoration: underline;
+  }
 }

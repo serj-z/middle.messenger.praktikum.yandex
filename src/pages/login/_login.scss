@@ -1,13 +1,6 @@
 .login {
   display: flex;
 
-  form {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
   &__form {
     padding: 30px;
     background-color: #FBFBFB;
@@ -19,6 +12,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    form {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &__headline {

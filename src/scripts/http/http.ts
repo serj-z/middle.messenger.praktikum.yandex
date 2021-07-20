@@ -1,4 +1,4 @@
-import { HTTPOptions, RequestOptions, Methods } from "./types";
+import { HTTPOptions, RequestOptions, Methods } from "../dto/types";
 
 export default class HTTPTransport {
   get = (url: string, options: HTTPOptions) => {
@@ -47,9 +47,12 @@ export default class HTTPTransport {
           : url,
       );
 
+      xhr.withCredentials = true;
+
       Object.keys(headers).forEach((key: string) => {
         xhr.setRequestHeader(key, headers[key]);
       });
+
 
       xhr.onload = function () {
         resolve(xhr);
@@ -64,7 +67,7 @@ export default class HTTPTransport {
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.send(headers['Content-type']?.includes('json') ? JSON.stringify(data) : data);
       }
     });
   };

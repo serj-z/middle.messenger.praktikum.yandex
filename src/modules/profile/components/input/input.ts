@@ -1,6 +1,6 @@
 import InputMsg from '../../../../components/input/inputMsg';
-import Block from '../../../../scripts/block';
-import { Props } from '../../../../scripts/types'
+import Block from '../../../../scripts/block/block';
+import { Props } from '../../../../scripts/dto/types'
 
 const tmpl: string = `span(data-child="message").input-profile__label #{label}
 input(type=type, class='input-profile__field', value=\`\${value ? value : ''}\`, name=name, disabled=disabled)`;

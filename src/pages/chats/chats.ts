@@ -1,47 +1,90 @@
-import Block from '../../scripts/block';
-import { checkAuth, render, listenEvent } from '../../scripts/globalFunctions';
-import user from '../../data/user.json';
-import AddContact from '../../modules/chats/components/add-contact/add-contact';
+import Block from '../../scripts/block/block';
+import { chatUsersBlock } from '../../modules/chats/components/chat-users/chat-users-modal';
 import DeleteChat from '../../modules/chats/components/delete-chat/deleteChat';
-import Chats from '../../modules/chats/chats';
+import Chats, { chat } from '../../modules/chats/chats';
 import MenuItems from '../../modules/menu/menu';
+import ModalsContainer from '../../components/modal/modalsContainer';
+import Notification from '../../components/notification/notification';
+import { chatDTO, userDTO } from '../../scripts/dto/dto';
+import { getUser } from '../../scripts/globalFunctions';
+import CreateChat from '../../modules/chats/components/create-chat/createChat';
+import Contacts from '../../modules/chats/components/contact/contacts';
+import { Props } from '../../scripts/dto/types';
+import ChatAvatar from '../../modules/chats/components/chat-avatar/chat-avatar';
+import ChatUsersModal from '../../modules/chats/components/chat-users/chat-users-modal';
+import AddUsersModal from '../../modules/chats/components/add-user/add-users-modal';
 
 const tmpl: string = `main.chats-wrap(data-child="chatsComponents")
-div(data-child="modals").modal-bg`;
+div(data-child="modals")`;
+
+const modalsContainer = new ModalsContainer({
+  children: []
+});
 
 export default class ChatsPage extends Block {
   constructor() {
+    const contacts = new Contacts({ chats: [], setChat: (chat: chatDTO) => this.setProps({ activeChat: chat }) });
+
     super({
       tagName: 'div'
-    }, tmpl, undefined, {
-      chatsComponents: [new MenuItems(), new Chats()],
-      modals: [new AddContact(), new DeleteChat()],
+    }, tmpl, {
+      user: {},
+      activeChat: {}
+    }, {
+      chatsComponents: [new MenuItems(), new Chats({
+        contacts
+      })],
+      modals: [modalsContainer]
     });
+
+    modalsContainer.setChildren('modals', [new CreateChat({
+      contacts,
+      modalsContainer
+    }), new AddUsersModal(),
+    new DeleteChat({
+      contacts
+    }), new ChatAvatar({
+      contacts
+    }), new ChatUsersModal({
+      user: this.props.user
+    })]);
+
+    chatUsersBlock.setProps({ contacts });
   }
 
-  componentDidMount() {
-    checkAuth(user.loggedin);
+  async componentDidMount() {
+    const user: userDTO = await getUser();
+    this.setProps({ user });
+    this.children.chatsComponents.forEach((component: Block) => component.setProps({ user }))
+    chatUsersBlock.setProps({ user });
+  }
+
+  componentDidUpdate(oldProps: Props, newProps: Props) {
+    if (this.props.state?.signedUp) {
+
+      modalsContainer.setChildren('notifications', [new Notification({
+        text: 'You have successfully signed up!',
+        title: 'Success!',
+        classList: 'opened',
+        btnText: 'Ok',
+      })]);
+      modalsContainer.getContent().querySelector('.modal-bg')!.classList.add('opened');
+      this.setProps({
+        state: {
+          signedUp: false
+        }
+      })
+      return true;
+    }
+
+    if (oldProps.activeChat.id !== newProps.activeChat.id) {
+      chat.setProps({ chat: newProps.activeChat });
+      return false;
+    }
+    return false;
+  }
+
+  componentWillUnmount() {
+    this.resetProps();
   }
 }
-
-render('#root', new ChatsPage());
-
-
-const menu: HTMLElement = document.querySelector('.menu')!;
-
-listenEvent(menu, 'click', function (e: Event) {
-  e.stopPropagation();
-  this.classList.add("opened");
-});
-
-listenEvent(window, 'click', (e: Event) => {
-  e.stopPropagation();
-  menu.classList.remove("opened");
-});
-
-listenEvent('.modal-bg', 'click', function (e: Event) {
-  if (e.target !== this) {
-    return;
-  }
-  document.querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove("opened"));
-});
