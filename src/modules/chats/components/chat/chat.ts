@@ -178,7 +178,7 @@ export default class Chat extends Block {
       console.log('Получены данные', event.data);
       const res = JSON.parse(event.data);
 
-      if ((res.type !== 'message' || res.type !== 'file') && !res.length) {
+      if ((res.type !== 'message' && res.type !== 'file') && !res.length) {
         const dialog: HTMLElement | null = this.getContent().querySelector('.dialog');
         if(dialog) dialog.removeEventListener('scroll', this.loadPage);
         return;
