@@ -1,5 +1,5 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 import { httpGet, httpPut } from '../../../../scripts/http/httpWrap';
 import { chatUsersBlock } from '../chat-users/chat-users-modal';

@@ -1,4 +1,4 @@
-import Block from "../block";
+import Block from "../block/block";
 
 export type ChatInfo = {
   id: string,
@@ -15,21 +15,22 @@ export type Message = {
   image?: string,
   you?: boolean,
   read?: boolean
-}
+};
 
 export type MessagesOnDate = {
   date: string,
   messages: Array<Message>
-}
+};
 
 export type Messages = {
   [id: string]: Array<MessagesOnDate>;
 };
 
 export type User = {
+  login: string;
   first_name: string,
   second_name: string,
-  avatar: string,
+  avatar?: string,
   display_name?: string,
   email: string,
   phone: string
@@ -72,7 +73,7 @@ export interface IEventBus {
   on: Function;
   off: Function;
   emit: Function
-}
+};
 
 export type RequestOptions = {
   headers?: Record<string, string>,
@@ -87,34 +88,34 @@ export type HTTPOptions = {
   data: any
 };
 
-export const enum LifeCycles {
+export enum LifeCycles {
   INIT = "init",
   FLOW_CDM = "flow:component-did-mount",
   FLOW_CDU = "flow:component-did-update",
   FLOW_RENDER = "flow:render",
   FLOW_CWU = "flow:component-will-unmount"
-}
+};
 
-export const enum Methods {
+export enum Methods {
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
   DELETE = "DELETE"
-}
+};
 
 export type ValidationRule = (val: string) => boolean;
 export type Validator = (val: string) => string;
 export type MakeValidator = (msg?: string, arg?: any) => Validator;
 
-export const enum PassTypes {
+export enum PassTypes {
   pass,
   oldPass,
   confirmPass
-}
+};
 
 export interface Constructable<T> {
   new(...args: any): T;
-}
+};
 
 export enum Paths {
   ROOT = "/",
@@ -125,6 +126,10 @@ export enum Paths {
   PROFILE = "/profile",
   NOT_FOUND = "/404",
   SERVER_ERROR = "/500"
-}
+};
 
 export type State = Record<string, any> | null;
+
+export type UserPass = Partial<User> & {
+  password: string
+};

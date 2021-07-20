@@ -1,5 +1,5 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 
 const tmpl: string = `img(src=chat.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + chat.avatar : '/chat-placeholder.png', alt=chat.title).contact-img.chat__contact__img

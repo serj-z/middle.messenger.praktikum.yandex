@@ -1,4 +1,4 @@
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { chatDTO, chatsDTO } from '../../../../scripts/dto/dto';
 import { Props } from '../../../../scripts/dto/types';
 import { httpGet } from '../../../../scripts/http/httpWrap';

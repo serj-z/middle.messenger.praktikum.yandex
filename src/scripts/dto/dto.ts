@@ -9,7 +9,7 @@ export type userDTO = {
   avatar: string | null,
   email: string,
   phone: string,
-  role: string
+  role?: string
 };
 
 export type chatDTO = {

@@ -1,5 +1,5 @@
 import Route from "./route";
-import Block from "../block";
+import Block from "../block/block";
 import { Constructable, Paths, State } from "../dto/types";
 import { checkAuth } from "../globalFunctions";
 

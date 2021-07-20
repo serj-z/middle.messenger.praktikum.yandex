@@ -1,4 +1,4 @@
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { userDTO } from '../../../../scripts/dto/dto';
 import { Props } from '../../../../scripts/dto/types';
 import { chatUsersBlock } from '../chat-users/chat-users-modal';

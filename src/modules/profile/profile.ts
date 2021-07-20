@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import { Props } from '../../scripts/dto/types';
 import ChangeAvatar from './components/change-avatar/change-avatar';
 import Markup from '../../components/markup/markup';

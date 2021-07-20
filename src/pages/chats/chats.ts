@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import { chatUsersBlock } from '../../modules/chats/components/chat-users/chat-users-modal';
 import DeleteChat from '../../modules/chats/components/delete-chat/deleteChat';
 import Chats, { chat } from '../../modules/chats/chats';
@@ -69,7 +69,11 @@ export default class ChatsPage extends Block {
         btnText: 'Ok',
       })]);
       modalsContainer.getContent().querySelector('.modal-bg')!.classList.add('opened');
-
+      this.setProps({
+        state: {
+          signedUp: false
+        }
+      })
       return true;
     }
 

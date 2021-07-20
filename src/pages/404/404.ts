@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import Link from '../../components/link/link';
 import { Paths } from '../../scripts/dto/types';
 

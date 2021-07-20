@@ -1,8 +1,8 @@
 import { router } from '../main';
-import Block from '../scripts/block';
+import Block from './block/block';
 import { userDTO } from './dto/dto';
 import { httpGet, httpPost } from './http/httpWrap';
-import { Paths } from './dto/types';
+import { Paths, UserPass } from './dto/types';
 
 export function render(query: string, block: Block): Element {
   const root: Element = document.querySelector(query)!;
@@ -64,7 +64,7 @@ export async function getUser(): Promise<userDTO> {
   return JSON.parse(res);
 }
 
-export async function logout() {
+export async function logout(): Promise<void> {
   const res = await httpPost('/auth/logout', {
     data: undefined,
     headers: {
@@ -78,7 +78,7 @@ export async function logout() {
 }
 
 export function debounce(func: Function, wait: number): Function {
-  let timeout: number;
+  let timeout: NodeJS.Timeout;
 
   return function executedFunction(...args: any): void {
     const later = () => {
@@ -117,9 +117,19 @@ export function calcChatDate(date: string): string {
   }
 }
 
-export function getLocalTime(date: string) {
+export function getLocalTime(date: string): string {
   const time = new Date(date);
   let [hour, minute] = time.toLocaleString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(':');
   if (hour === '24') hour = '00';
   return `${hour}:${minute}`;
+}
+
+export const signup = async (data: UserPass): Promise<Record<string, number>> => {
+  const res: string = await httpPost('/auth/signup', {
+    data,
+    headers: {
+      'Content-type': 'application/json; charset=utf-8'
+    }
+  });
+  return JSON.parse(res);
 }

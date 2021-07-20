@@ -1,5 +1,5 @@
-import EventBus from './eventBus';
-import { BlockMeta, Props, Children, LifeCycles, Tag } from './dto/types';
+import EventBus from '../eventBus';
+import { BlockMeta, Props, Children, LifeCycles, Tag } from '../dto/types';
 import { render as compile } from 'pug';
 
 export default abstract class Block {

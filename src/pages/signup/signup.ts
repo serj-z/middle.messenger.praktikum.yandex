@@ -1,7 +1,7 @@
 import { getFormEntries } from '../../scripts/globalFunctions';
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import Validation from '../../scripts/validation';
 import { PassTypes, Paths } from '../../scripts/dto/types';
 import InputMsg from '../../components/input/inputMsg';

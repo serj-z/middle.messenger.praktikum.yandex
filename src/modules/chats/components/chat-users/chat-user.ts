@@ -1,5 +1,5 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { userDTO } from '../../../../scripts/dto/dto';
 import { Props } from '../../../../scripts/dto/types';
 import { httpDelete } from '../../../../scripts/http/httpWrap';

@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import { Props } from '../../scripts/dto/types';
 
 export default class InputMsg extends Block {

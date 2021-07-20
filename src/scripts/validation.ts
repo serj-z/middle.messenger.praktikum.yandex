@@ -1,4 +1,4 @@
-import Block from "./block";
+import Block from "./block/block";
 import { MakeValidator, PassTypes, ValidationRule, Validator } from "./dto/types";
 
 export default class Validation {

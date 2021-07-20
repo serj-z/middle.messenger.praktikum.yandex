@@ -1,4 +1,4 @@
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 import Compose from '../compose/compose';
 import { render as compile } from 'pug';
@@ -6,7 +6,7 @@ import { httpGet, httpPost } from '../../../../scripts/http/httpWrap';
 import ChatInfo from './chat-info';
 import { chatUsersBlock } from '../chat-users/chat-users-modal';
 import { addUsersBlock } from '../add-user/add-users-modal';
-import { messageDTO, userDTO } from '../../../../scripts/dto/dto';
+import { fileDTO, messageDTO, userDTO } from '../../../../scripts/dto/dto';
 import Message from './message';
 import { calcChatDate, getLocalTime } from '../../../../scripts/globalFunctions';
 
@@ -130,6 +130,27 @@ export default class Chat extends Block {
             type: 'message',
           }));
           formMessage.sendMessage.value = '';
+        },
+        change: async (e: Event) => {
+          e.preventDefault();
+          const target: HTMLInputElement = e.target as HTMLInputElement;
+
+          if (!target.files?.length) return;
+          try {
+            const data = new FormData();
+            data.append('resource', target.files[0]);
+            const res = await httpPost('/resources', { data });
+            const file: fileDTO = JSON.parse(res);
+
+            socket.send(JSON.stringify({
+              content: `${file.id}`,
+              type: 'file',
+            }));
+
+          } catch (err) {
+            console.log('Error', err);
+          }
+
         }
       }
     });
@@ -157,19 +178,18 @@ export default class Chat extends Block {
       console.log('Получены данные', event.data);
       const res = JSON.parse(event.data);
 
-      if (res.type !== 'message' && !res.length) return;
-
-      if (this.lastResponseChatId !== chatId) {
-        this.initChat(res);
-        this.lastResponseChatId = chatId;
+      if ((res.type !== 'message' || res.type !== 'file') && !res.length) {
+        const dialog: HTMLElement | null = this.getContent().querySelector('.dialog');
+        if(dialog) dialog.removeEventListener('scroll', this.loadPage);
         return;
       }
 
       if (res.length) {
 
-        if (res.length < this.perPage) {
-          const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
-          dialog.removeEventListener('scroll', this.loadPage);
+        if (this.lastResponseChatId !== chatId) {
+          this.lastResponseChatId = chatId;
+          this.initChat(res);
+          return;
         }
 
         const messages: Array<messageDTO> = res;

@@ -1,5 +1,5 @@
 import InputMsg from '../../../../components/input/inputMsg';
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types'
 
 const tmpl: string = `span(data-child="message").input-profile__label #{label}

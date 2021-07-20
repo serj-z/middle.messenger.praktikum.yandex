@@ -7,7 +7,7 @@ import { userDTO } from '../../scripts/dto/dto';
 import { getFormEntries } from '../../scripts/globalFunctions';
 import { httpPut } from '../../scripts/http/httpWrap';
 import Notification from '../../components/notification/notification';
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 
 
 const v = new Validation('inputs', 'message');

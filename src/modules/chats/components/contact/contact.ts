@@ -1,4 +1,4 @@
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 import { render as compile } from 'pug';
 import { calcDateTime } from '../../../../scripts/globalFunctions';
@@ -34,7 +34,7 @@ export default class Contact extends Block {
       p.contacts__item__text
         if user.login === lastSender.login
           span You: 
-        | #{last_message.content}
+        | #{last_message.file ? 'image' : last_message.content}
       if unread_count
         .contacts__item__unread #{unread_count}
     `;

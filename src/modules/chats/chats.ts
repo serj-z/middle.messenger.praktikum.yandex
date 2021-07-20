@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import Search from './components/search/search';
 import Contacts from './components/contact/contacts';
 import Chat from './components/chat/chat';

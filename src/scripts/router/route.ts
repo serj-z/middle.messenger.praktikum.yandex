@@ -1,4 +1,4 @@
-import Block from "../block";
+import Block from "../block/block";
 import { render } from "../globalFunctions";
 import { Constructable, State } from "../dto/types";
 

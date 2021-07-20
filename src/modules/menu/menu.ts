@@ -1,4 +1,4 @@
-import Block from '../../scripts/block';
+import Block from '../../scripts/block/block';
 import IconButton from '../../components/icon-btn/iconBtn';
 import { Paths } from '../../scripts/dto/types';
 import Link from '../../components/link/link';

@@ -1,4 +1,4 @@
-import Block from '../../../../scripts/block';
+import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 
 const tmpl: string = `if dateFormatted
@@ -10,7 +10,7 @@ else
     p.message__sender #{sender.display_name ? sender.display_name : sender.first_name + ' ' + sender.second_name}
   div(class=\`message__wrap \${message.type === 'file' ? 'message__img': 'message__text'}\`)
     if message.file
-      img(src='https://ya-praktikum.tech/api/v2/resources'+message.path, alt=message.filename)
+      img(src='https://ya-praktikum.tech/api/v2/resources'+message.file.path, alt=message.file.filename)
     else
       | #{message.content}
     span(class=\`message__time \${currentUser.id === message.user_id && message.is_read ? 'message-read': ''}\`) #{timeFormatted}`;
