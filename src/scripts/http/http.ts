@@ -1,19 +1,19 @@
 import { HTTPOptions, RequestOptions, Methods } from "../dto/types";
 
 export default class HTTPTransport {
-  get = (url: string, options: HTTPOptions) => {
+  get = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.GET }, options.timeout);
   };
 
-  post = (url: string, options: HTTPOptions) => {
+  post = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.POST }, options.timeout);
   };
 
-  put = (url: string, options: HTTPOptions) => {
+  put = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
   };
 
-  delete = (url: string, options: HTTPOptions) => {
+  delete = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
   };
 

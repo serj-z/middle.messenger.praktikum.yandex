@@ -34,11 +34,11 @@ export default class Router {
 
   async start(): Promise<void> {
 
-    window.onpopstate = ((event: PopStateEvent) => {
+    window.onpopstate = (event: PopStateEvent) => {
       const w = event.currentTarget as Window;
       if (!this._loggedIn && (w.location.pathname !== Paths.LOGIN && w.location.pathname !== Paths.SIGNUP)) return;
       this._onRoute(w.location.pathname, event.state);
-    }).bind(this);
+    };
 
     const isLoginPage = window.location.pathname === Paths.LOGIN || window.location.pathname === Paths.SIGNUP;
     if (!isLoginPage) await checkAuth();

@@ -8,9 +8,10 @@ export default class ModalsContainer extends Block {
     }, 'div(data-child="modals notifications", class=\`modal-bg \${classList ? classList : ""}\`)', {
       events: {
         click: (e: Event) => {
-          const target: HTMLElement = e.target as HTMLElement;
-          if (!target.classList.contains('modal-bg')) return;
-          this.getContent().querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove('opened'));
+          const target = e.target as HTMLElement;
+          if (target.classList.contains('modal-bg')) {
+            this.getContent().querySelectorAll('.modal-bg, .modal').forEach(item => item.classList.remove('opened'));
+          }
         }
       }
     }, {
