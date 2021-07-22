@@ -9,6 +9,7 @@ import { addUsersBlock } from '../add-user/add-users-modal';
 import { fileDTO, messageDTO, userDTO } from '../../../../scripts/dto/dto';
 import Message from './message';
 import { calcChatDate, getLocalTime } from '../../../../scripts/globalFunctions';
+import ChatService from './chat-service';
 
 export default class Chat extends Block {
 
@@ -52,7 +53,9 @@ export default class Chat extends Block {
     this.loadPage = (): void => {
       const dialog: HTMLElement = this.getContent().querySelector('.dialog')!;
       const dialogContainer: HTMLElement = this.getContent().querySelector('.dialog__container')!;
-      if ((dialog.getBoundingClientRect().top - 100) < dialogContainer.getBoundingClientRect().top) {
+      const scrollTopLoadPoint = dialog.getBoundingClientRect().top - 100;
+      const dialogScrolled = dialogContainer.getBoundingClientRect().top;
+      if (scrollTopLoadPoint < dialogScrolled) {
         this.props.socket.send(JSON.stringify({
           content: (this.perPage * this.page).toString(),
           type: 'get old',
@@ -60,13 +63,6 @@ export default class Chat extends Block {
         this.page++;
       }
     }
-  }
-
-  ping(socket: WebSocket): void {
-    const interval = setInterval(() => {
-      socket.send(JSON.stringify({ type: 'ping' }));
-    }, 30000);
-    socket.onclose = () => clearInterval(interval);
   }
 
   scrollBottom() {
@@ -91,7 +87,9 @@ export default class Chat extends Block {
         user: this.props.user,
         sender: sender === senderNext ? undefined : this.props.users.find((u: userDTO) => u.id === +m.user_id)
       });
-      if (dateFormattedNext !== dateFormatted) messagesArray.push({ dateFormatted });
+      if (dateFormattedNext !== dateFormatted) {
+        messagesArray.push({ dateFormatted })
+      };
     }
     const lastMessage: messageDTO = messages[messages.length - 1];
     this.lastDate = calcChatDate(lastMessage.time);
@@ -112,9 +110,9 @@ export default class Chat extends Block {
   }
 
   async connect(chatId: number) {
-    const token = await this.getChatToken(chatId);
-    const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.props.user.id}/${chatId}/${token}`);
-    this.ping(socket);
+    const pingInterval: number = 30000;
+    const chatService = new ChatService(chatId, this.props.user.id);
+    const socket = await chatService.connect(pingInterval);
     this.setProps({ socket });
     this.page = 0;
     this.setChildren('messages', []);
@@ -180,7 +178,7 @@ export default class Chat extends Block {
 
       if ((res.type !== 'message' && res.type !== 'file') && !res.length) {
         const dialog: HTMLElement | null = this.getContent().querySelector('.dialog');
-        if(dialog) dialog.removeEventListener('scroll', this.loadPage);
+        if (dialog) dialog.removeEventListener('scroll', this.loadPage);
         return;
       }
 

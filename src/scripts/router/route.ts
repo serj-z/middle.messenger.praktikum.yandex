@@ -33,11 +33,11 @@ export default class Route {
     return pathname === this._pathname;
   }
 
-  setState(state: State) {
+  setState(state: State): void {
     this._block.setProps({ state });
   }
 
-  render() {
+  render(): void {
     if (!this._block) {
       this._block = new this._blockClass();
     }
