@@ -1,9 +1,9 @@
-import { expect, assert } from "chai";
-import { userDTO } from "../dto/dto";
-import { UserPass } from "../dto/types";
-import { httpPost, httpPut } from "./httpWrap";
-import { v4 as makeUUID } from "uuid";
-import { getUser, signup } from "../globalFunctions";
+import { expect, assert } from 'chai';
+import { userDTO } from '../dto/dto';
+import { UserPass } from '../dto/types';
+import { httpPost, httpPut } from './httpWrap';
+import { v4 as makeUUID } from 'uuid';
+import { getUser, signup } from '../globalFunctions';
 
 
 describe('Пользователь', () => {

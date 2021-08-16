@@ -1,9 +1,10 @@
 import Block from '../../scripts/block/block';
 import Link from '../../components/link/link';
 import { Paths } from '../../scripts/dto/types';
+import ServerErrorImg from '../../static/img/500.svg';
 
 const tmpl = `.error__wrap(data-child="link")
-  img(src="/500.svg", alt=title).error__img
+  img(src="${ServerErrorImg}", alt=title).error__img
   h1.error__title Internal server error`;
 
 export default class Page500 extends Block {

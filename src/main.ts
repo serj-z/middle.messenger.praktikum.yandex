@@ -1,3 +1,4 @@
+import './main.scss';
 import Router from './scripts/router/router';
 import ChatsPage from './pages/chats/chats';
 import LoginPage from './pages/login/login';

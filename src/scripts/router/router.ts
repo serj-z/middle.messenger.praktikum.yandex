@@ -1,7 +1,7 @@
-import Route from "./route";
-import Block from "../block/block";
-import { Constructable, Paths, State } from "../dto/types";
-import { checkAuth } from "../globalFunctions";
+import Route from './route';
+import Block from '../block/block';
+import { Constructable, Paths, State } from '../dto/types';
+import { checkAuth } from '../globalFunctions';
 
 export default class Router {
 

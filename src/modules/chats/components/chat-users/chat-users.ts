@@ -4,6 +4,7 @@ import { userDTO } from '../../../../scripts/dto/dto';
 import { Props } from '../../../../scripts/dto/types';
 import { chat } from '../../chats';
 import ChatUser from './chat-user';
+import DeleteImg from '../../../../static/img/delete.svg';
 
 export default class ChatUsers extends Block {
   constructor() {
@@ -28,7 +29,7 @@ export default class ChatUsers extends Block {
 
     if (currentUser.role === 'admin') {
       chat.setChildren('deleteChat', [new IconButton({
-        img: 'delete.svg',
+        img: DeleteImg,
         type: 'button',
         classList: 'chat__contact__delete',
         events: {

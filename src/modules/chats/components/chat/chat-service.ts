@@ -1,4 +1,4 @@
-import { httpPost } from "../../../../scripts/http/httpWrap";
+import { httpPost } from '../../../../scripts/http/httpWrap';
 
 export default class ChatService {
 

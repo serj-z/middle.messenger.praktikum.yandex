@@ -1,4 +1,4 @@
-import { HTTPOptions, RequestOptions, Methods } from "../dto/types";
+import { HTTPOptions, RequestOptions, Methods } from '../dto/types';
 
 export default class HTTPTransport {
   get = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {

@@ -1,5 +1,5 @@
-import Block from "./block/block";
-import { MakeValidator, PassTypes, ValidationRule, Validator } from "./dto/types";
+import Block from './block/block';
+import { MakeValidator, PassTypes, ValidationRule, Validator } from './dto/types';
 
 export default class Validation {
   invalidFields: Array<string> = [];

@@ -1,5 +1,5 @@
-import { HTTPOptions } from "../dto/types";
-import HTTPTransport from "./http";
+import { HTTPOptions } from '../dto/types';
+import HTTPTransport from './http';
 
 const httpWrap = async (
   url: string,

@@ -1,9 +1,9 @@
-import { expect, assert } from "chai";
-import { chatDTO, messageDTO, userDTO } from "../dto/dto";
-import { UserPass } from "../dto/types";
-import { httpDelete, httpGet, httpPost, httpPut } from "./httpWrap";
-import { v4 as makeUUID } from "uuid";
-import { signup } from "../globalFunctions";
+import { expect, assert } from 'chai';
+import { chatDTO, messageDTO, userDTO } from '../dto/dto';
+import { UserPass } from '../dto/types';
+import { httpDelete, httpGet, httpPost, httpPut } from './httpWrap';
+import { v4 as makeUUID } from 'uuid';
+import { signup } from '../globalFunctions';
 
 
 describe('Чат', () => {

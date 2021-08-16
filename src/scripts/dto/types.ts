@@ -1,4 +1,4 @@
-import Block from "../block/block";
+import Block from '../block/block';
 
 export type ChatInfo = {
   id: string,
@@ -89,18 +89,18 @@ export type HTTPOptions = {
 };
 
 export enum LifeCycles {
-  INIT = "init",
-  FLOW_CDM = "flow:component-did-mount",
-  FLOW_CDU = "flow:component-did-update",
-  FLOW_RENDER = "flow:render",
-  FLOW_CWU = "flow:component-will-unmount"
+  INIT = 'init',
+  FLOW_CDM = 'flow:component-did-mount',
+  FLOW_CDU = 'flow:component-did-update',
+  FLOW_RENDER = 'flow:render',
+  FLOW_CWU = 'flow:component-will-unmount'
 };
 
 export enum Methods {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE"
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE'
 };
 
 export type ValidationRule = (val: string) => boolean;
@@ -118,14 +118,14 @@ export interface Constructable<T> {
 };
 
 export enum Paths {
-  ROOT = "/",
-  LOGIN = "/login",
-  SIGNUP = "/signup",
-  EDIT_PROFILE = "/edit-profile",
-  CHANGE_PASS = "/change-pass",
-  PROFILE = "/profile",
-  NOT_FOUND = "/404",
-  SERVER_ERROR = "/500"
+  ROOT = '/',
+  LOGIN = '/login',
+  SIGNUP = '/signup',
+  EDIT_PROFILE = '/edit-profile',
+  CHANGE_PASS = '/change-pass',
+  PROFILE = '/profile',
+  NOT_FOUND = '/404',
+  SERVER_ERROR = '/500'
 };
 
 export type State = Record<string, any> | null;

@@ -4,8 +4,13 @@ import { Paths } from '../../scripts/dto/types';
 import Link from '../../components/link/link';
 import Markup from '../../components/markup/markup';
 import { listenEvent, logout } from '../../scripts/globalFunctions';
+import UserPlaceholder from '../../static/img/user-placeholder.png';
+import ProfileImg from '../../static/img/profile.svg';
+import AddContactImg from '../../static/img/add-contact.svg';
+import LogOutImg from '../../static/img/log-out.svg';
+import CrossImg from '../../static/img/cross.svg';
 
-const tmpl: string = `img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '/user-placeholder.png', alt=user.login, class="menu__img")
+const tmpl: string = `img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '${UserPlaceholder}', alt=user.login, class="menu__img")
 
 .menu__user 
   h3.menu__fullname \#{user.display_name ? user.display_name : user.first_name + ' ' + user.second_name}
@@ -26,16 +31,16 @@ export default class MenuItems extends Block {
       events: {
         click: function (e: Event) {
           e.stopPropagation();
-          this.classList.add("opened");
+          this.classList.add('opened');
         }
       }
     }, {
       menuItems: [
-        new Link({ text: '', classList: 'menu__item menu__profile', path: Paths.PROFILE, template: 'img(src="/profile.svg", alt="Profile").menu__item__img\nspan Profile' }),
+        new Link({ text: '', classList: 'menu__item menu__profile', path: Paths.PROFILE, template: `img(src="${ProfileImg}", alt="Profile").menu__item__img\nspan Profile` }),
         new Markup({
           tag: 'a',
           classList: 'menu__item menu__create-chat',
-          template: 'img(src="/add-contact.svg", alt="Create chat").menu__item__img\nspan Create chat',
+          template: `img(src="${AddContactImg}", alt="Create chat").menu__item__img\nspan Create chat`,
           props: {
             events: {
               click: (e: Event) => {
@@ -51,7 +56,7 @@ export default class MenuItems extends Block {
         new Markup({
           tag: 'a',
           classList: 'menu__item menu__log-out',
-          template: 'img(src="/log-out.svg", alt="Log out").menu__item__img\nspan Log out',
+          template: `img(src="${LogOutImg}", alt="Log out").menu__item__img\nspan Log out`,
           props: {
             events: {
               click: async (e: Event) => {
@@ -64,13 +69,13 @@ export default class MenuItems extends Block {
       ],
       close: [new IconButton({
         type: 'button',
-        img: 'cross.svg',
+        img: CrossImg,
         text: '11',
         classList: 'menu__close',
         events: {
           click: (e: Event) => {
             e.stopPropagation();
-            this.getContent().classList.remove("opened");
+            this.getContent().classList.remove('opened');
           }
         }
       })]
@@ -78,7 +83,7 @@ export default class MenuItems extends Block {
 
     listenEvent(window, 'click', (e: Event) => {
       e.stopPropagation();
-      this.getContent().classList.remove("opened");
+      this.getContent().classList.remove('opened');
     });
   }
 }

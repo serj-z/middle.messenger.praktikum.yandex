@@ -9,7 +9,7 @@ export default class IconButton extends Block {
       attrs: {
         type: props.type,
         title: props.title,
-        style: `background-image:url('/${props.img}'`
+        style: `background-image:url('${props.img}')`
       }
     }, '', props);
   }

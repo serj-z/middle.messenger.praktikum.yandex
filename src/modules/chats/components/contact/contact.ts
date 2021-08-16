@@ -3,6 +3,7 @@ import { Props } from '../../../../scripts/dto/types';
 import { render as compile } from 'pug';
 import { calcDateTime } from '../../../../scripts/globalFunctions';
 import { chat } from '../../chats';
+import ChatPlaceholder from '../../../../static/img/chat-placeholder.png';
 
 export default class Contact extends Block {
   constructor(props: Props) {
@@ -23,7 +24,7 @@ export default class Contact extends Block {
   }
 
   render() {
-    const template = `img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '/chat-placeholder.png', alt=title).contacts__item__img.contact-img
+    const template = `img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '${ChatPlaceholder}', alt=title).contacts__item__img.contact-img
 .contacts__item__wrap
   .contacts__item__meta
     h3.contacts__item__name #{title}

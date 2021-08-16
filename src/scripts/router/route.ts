@@ -1,6 +1,6 @@
-import Block from "../block/block";
-import { render } from "../globalFunctions";
-import { Constructable, State } from "../dto/types";
+import Block from '../block/block';
+import { render } from '../globalFunctions';
+import { Constructable, State } from '../dto/types';
 
 
 export default class Route {
