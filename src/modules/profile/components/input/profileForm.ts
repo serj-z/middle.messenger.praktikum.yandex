@@ -1,6 +1,5 @@
-import Block from '../../../../scripts/block';
-import { logFormEntries } from '../../../../scripts/globalFunctions';
-import { Props } from '../../../../scripts/types'
+import Block from '../../../../scripts/block/block';
+import { Props } from '../../../../scripts/dto/types'
 
 export default class ProfileForm extends Block {
   constructor(props: Props) {
@@ -10,19 +9,13 @@ export default class ProfileForm extends Block {
       attrs: {
         id: props.id || 'profileForm'
       }
-    }, `div(data-child="content")`, {
+    }, `div(data-child="inputs")${props.children.actions ? '\ndiv(data-child="actions").profile__actions' : ''}`, {
       bindContext: true,
-      events: {
-        submit: function (e: Event) {
-          const err = props.validation.validateForm(this);
-          if (err) {
-            e.preventDefault();
-            this.children.content[this.children.content.length - 2].setProps({ text: err });
-            return;
-          }
-          logFormEntries(this.getContent());
-        }
-      },
+      setUser: props.setUser,
+      setWarning: props.setWarning,
+      events: props.submit ? {
+        submit: props.submit
+      } : undefined,
     }, props.children);
   }
 }

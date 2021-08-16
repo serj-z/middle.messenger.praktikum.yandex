@@ -28,10 +28,21 @@
     &__info {
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
     &__name {
       margin: 0 10px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &__add-user {
+      margin-left: 7px;
     }
   }
 
@@ -46,6 +57,8 @@
 
     &__container {
       padding: 0 20px 30px;
+      display: flex;
+      flex-direction: column-reverse;
     }
 
     &__date {

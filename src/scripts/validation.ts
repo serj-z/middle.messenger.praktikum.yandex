@@ -1,5 +1,5 @@
-import Block from "./block";
-import { MakeValidator, PassTypes, ValidationRule, Validator } from "./types";
+import Block from "./block/block";
+import { MakeValidator, PassTypes, ValidationRule, Validator } from "./dto/types";
 
 export default class Validation {
   invalidFields: Array<string> = [];
@@ -17,11 +17,11 @@ export default class Validation {
     return val => !rule(val) ? msg : '';
   };
 
-  private validateRequired: ValidationRule = val => val?.trim().length > 0;
+  private validateRequired: ValidationRule = val => val.trim().length > 0;
   private validateEmail: ValidationRule = val => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(val);
   private validateUsername: ValidationRule = val => /^[A-Za-z0-9_-]*$/.test(val);
   private validatePhone: ValidationRule = val => /^(?=.*[0-9])([0-9\(\)\/\+ \-]*)$/.test(val);
-  private validateMinLength: (min: number) => ValidationRule = min => val => val?.length >= min;
+  private validateMinLength: (min: number) => ValidationRule = min => val => val.length >= min;
   private validatePassword: (type: PassTypes) => ValidationRule = type => val => {
     if (type === PassTypes.pass) this.password = val;
     return /^\S*$/.test(val);
@@ -47,6 +47,7 @@ export default class Validation {
     if(!field) return;
     const label: string = component.props.label;
     const rules: Array<Validator> = component.props.rules;
+    if(!rules?.length) return;
 
     let errors: Array<string> = [];
     rules.forEach((rule) => {
@@ -59,7 +60,7 @@ export default class Validation {
     } else if (!errors.length && index > -1) {
       this.invalidFields.splice(index, 1);
     }
-    component.children?.[this.messageContainer][0]?.setProps({text: errors.join('\n')});
+    component.children?.[this.messageContainer][0].setProps({text: errors.join('\n')});
   };
 
   validateForm = (form: Block): string => {

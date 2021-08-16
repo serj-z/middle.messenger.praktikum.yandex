@@ -1,19 +1,19 @@
-import { HTTPOptions, RequestOptions, Methods } from "./types";
+import { HTTPOptions, RequestOptions, Methods } from "../dto/types";
 
 export default class HTTPTransport {
-  get = (url: string, options: HTTPOptions) => {
+  get = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.GET }, options.timeout);
   };
 
-  post = (url: string, options: HTTPOptions) => {
+  post = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.POST }, options.timeout);
   };
 
-  put = (url: string, options: HTTPOptions) => {
+  put = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
   };
 
-  delete = (url: string, options: HTTPOptions) => {
+  delete = (url: string, options: HTTPOptions): Promise<XMLHttpRequest> => {
     return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
   };
 
@@ -47,9 +47,12 @@ export default class HTTPTransport {
           : url,
       );
 
+      xhr.withCredentials = true;
+
       Object.keys(headers).forEach((key: string) => {
         xhr.setRequestHeader(key, headers[key]);
       });
+
 
       xhr.onload = function () {
         resolve(xhr);
@@ -64,7 +67,7 @@ export default class HTTPTransport {
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.send(headers['Content-type']?.includes('json') ? JSON.stringify(data) : data);
       }
     });
   };

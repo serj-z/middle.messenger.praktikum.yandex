@@ -1,5 +1,5 @@
-import Block from '../../scripts/block';
-import { Props } from '../../scripts/types';
+import Block from '../../scripts/block/block';
+import { Props } from '../../scripts/dto/types';
 import InputMsg from './inputMsg';
 
 const tmpl: string = `input(type=type, class='input__field', value="", name=name, onkeyup="this.setAttribute('value', this.value)")
