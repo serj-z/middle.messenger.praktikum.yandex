@@ -8,7 +8,7 @@
     "start": "webpack --mode=production && npm run serve",
     "build": "webpack --mode=production",
     "dev": "webpack --watch",
-    "test": "mocha"
+    "test": "mocha --require ignore-styles"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/serj-z/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.14.5",
     "@babel/register": "^7.14.5",
     "@types/chai": "^4.2.21",
@@ -38,6 +39,7 @@
     "express": "^4.17.1",
     "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.1",
+    "ignore-styles": "^5.0.1",
     "jsdom": "16.6.0",
     "jsdom-global": "3.0.2",
     "mini-css-extract-plugin": "^2.2.0",
