@@ -8,6 +8,7 @@
     "start": "webpack --mode=production && npm run serve",
     "build": "webpack --mode=production",
     "dev": "webpack --watch",
+    "prepare": "husky install",
     "test": "mocha --require ignore-styles"
   },
   "repository": {
