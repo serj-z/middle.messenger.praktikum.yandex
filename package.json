@@ -37,6 +37,7 @@
     "eslint": "^7.28.0",
     "express": "^4.17.1",
     "html-webpack-plugin": "^5.3.2",
+    "husky": "^7.0.1",
     "jsdom": "16.6.0",
     "jsdom-global": "3.0.2",
     "mini-css-extract-plugin": "^2.2.0",
@@ -56,6 +57,11 @@
   },
   "dependencies": {
     "pug": "^3.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   },
   "engines": {
     "node": "14.17.0",
