@@ -24,7 +24,7 @@ describe('Роутер', () => {
     it('Чаты', () => {
       router.go(Paths.ROOT)
       console.log(window.location.pathname);
-      expect(window.location.pathname).to.eq(Paths.SIGNUP);
+      expect(window.location.pathname).to.eq(Paths.ROOT);
     });
 
     it('Регистрация', () => {
