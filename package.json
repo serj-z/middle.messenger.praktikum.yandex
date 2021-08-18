@@ -9,7 +9,6 @@
     "build": "webpack --mode=production",
     "dev": "webpack --watch",
     "prepare": "husky install",
-    "precommit": "echo 'Pre-commit checks..' && exit 0",
     "test": "mocha --require ignore-styles"
   },
   "repository": {
