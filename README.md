@@ -8,15 +8,18 @@ Sprint 2 Добавлены реактивные компоненты, клие�
 
 Sprint 3 Реализован роутинг, добавлены тесты, подключен бэкенд.
 
+Sprint 4 Изменён сборщик с Parcel на Webpack, добавлен precommit, настроена контейнеризация с помощью Docker, проект развёрнут на Heroku.
+
 ## Установка
 
 - `npm install` — установка зависимостей,
-- `npm start` — сборка и запуск сервера,
-- `npm run build` — сборка,
+- `npm start` — сборка прод версии и запуск сервера,
+- `npm run build` — сборка прод версии,
+- `npm run dev` — сборка дев версии,
 - `npm run test` — запуск тестов.
 
 ## Ссылки
 
 - [Макет](https://www.figma.com/file/9wrbNzsFrIJsHTGbd6tHj4/Messenger)
-- [Netlify](https://keen-tesla-b0a4e3.netlify.app/)
-- [Pull request](https://github.com/serj-z/middle.messenger.praktikum.yandex/pull/3)
+- [Heroku](https://yap-messenger.herokuapp.com/)
+- [Pull request](https://github.com/serj-z/middle.messenger.praktikum.yandex/pull/4)
