@@ -19,4 +19,4 @@ Sprint 3 Реализован роутинг, добавлены тесты, п�
 
 - [Макет](https://www.figma.com/file/9wrbNzsFrIJsHTGbd6tHj4/Messenger)
 - [Netlify](https://keen-tesla-b0a4e3.netlify.app/)
-- [Pull request](https://github.com/serj-z/middle.messenger.praktikum.yandex/pull/3)
+- [Pull request](https://github.com/serj-z/middle.messenger.praktikum.yandex/pull/4)
