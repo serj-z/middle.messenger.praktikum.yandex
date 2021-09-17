@@ -41,5 +41,5 @@ export default class Chats extends Block {
 listenEvent(window, 'click', (e: Event) => {
   e.stopPropagation();
   const attach: HTMLElement = document.querySelector('.compose__attach-options')!;
-  if (attach) attach.classList.remove("opened");
+  if (attach) attach.classList.remove('opened');
 });

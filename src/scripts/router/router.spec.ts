@@ -1,10 +1,10 @@
-import { expect } from "chai";
-import ChatsPage from "../../pages/chats/chats";
-import LoginPage from "../../pages/login/login";
-import ProfilePage from "../../pages/profile/profile";
-import SignupPage from "../../pages/signup/signup";
-import { Paths } from "../dto/types";
-import Router from "./router";
+import { expect } from 'chai';
+import ChatsPage from '../../pages/chats/chats';
+import LoginPage from '../../pages/login/login';
+import ProfilePage from '../../pages/profile/profile';
+import SignupPage from '../../pages/signup/signup';
+import { Paths } from '../dto/types';
+import Router from './router';
 
 
 const router = new Router('#root');

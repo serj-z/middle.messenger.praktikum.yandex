@@ -1,12 +1,13 @@
 import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
+import UserPlaceholder from '../../../../static/img/user-placeholder.png';
 
 const tmpl: string = `if dateFormatted
   p.dialog__date #{dateFormatted}
 else
   if sender
     .message__meta
-      img(src=sender.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + sender.avatar : '/user-placeholder.png', alt=sender.login).message__avatar
+      img(src=sender.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + sender.avatar : '${UserPlaceholder}', alt=sender.login).message__avatar
     p.message__sender #{sender.display_name ? sender.display_name : sender.first_name + ' ' + sender.second_name}
   div(class=\`message__wrap \${message.type === 'file' ? 'message__img': 'message__text'}\`)
     if message.file

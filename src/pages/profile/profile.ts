@@ -1,9 +1,9 @@
-import Profile from "../../modules/profile/profile";
-import Link from "../../components/link/link";
-import { Paths } from "../../scripts/dto/types";
-import { logout } from "../../scripts/globalFunctions";
-import Markup from "../../components/markup/markup";
-import { userDTO } from "../../scripts/dto/dto";
+import Profile from '../../modules/profile/profile';
+import Link from '../../components/link/link';
+import { Paths } from '../../scripts/dto/types';
+import { logout } from '../../scripts/globalFunctions';
+import Markup from '../../components/markup/markup';
+import { userDTO } from '../../scripts/dto/dto';
 
 const inputs = (user: userDTO) => ([
   {

@@ -3,9 +3,11 @@ import Block from '../../../../scripts/block/block';
 import { Props } from '../../../../scripts/dto/types';
 import { httpGet, httpPut } from '../../../../scripts/http/httpWrap';
 import { chatUsersBlock } from '../chat-users/chat-users-modal';
+import UserPlaceholder from '../../../../static/img/user-placeholder.png';
+import AddContact from '../../../../static/img/add-contact.svg';
 
 const template: string = `div(data-child="add").chat-users__item.add-user__item
-  img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '/user-placeholder.png', alt=display_name).contact-img
+  img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '${UserPlaceholder}', alt=display_name).contact-img
   .chat-users__item__info
     h3.chat-users__item__name #{display_name ? display_name : first_name + ' ' + second_name}
     p.chat-users__item__login #{login}`;
@@ -16,7 +18,7 @@ export default class AddUser extends Block {
       tagName: 'li'
     }, template, props, {
       add: !props.isAdded ? [new IconButton({
-        img: 'add-contact.svg',
+        img: AddContact,
         type: 'button',
         title: 'Add this user to the chat',
         classList: 'chat-users__item__btn',

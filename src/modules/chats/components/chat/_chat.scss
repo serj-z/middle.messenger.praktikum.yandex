@@ -46,8 +46,9 @@
     }
   }
 
-  @import "modules/chats/components/compose/compose";
-  @import "modules/chats/components/chat/message";
+  @import
+  '../../../chats/components/compose/compose',
+  '../../../chats/components/chat/message';
 
   .dialog {
     height: calc(100% - 126px);

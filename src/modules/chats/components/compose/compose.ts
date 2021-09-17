@@ -1,5 +1,6 @@
 import IconButton from '../../../../components/icon-btn/iconBtn';
 import Block from '../../../../scripts/block/block';
+import AttachImg from '../../../../static/img/attach.svg';
 
 const tmpl: string = `form(method="post").compose#formMessage
 
@@ -20,13 +21,13 @@ export default class Compose extends Block {
       tagName: 'div'
     }, tmpl, {}, {
       attach: [new IconButton({
-        img: 'attach.svg',
+        img: AttachImg,
         type: 'button',
         classList: 'compose__attach',
         events: {
           click: (e: Event) => {
             e.stopPropagation();
-            document.querySelector('.compose__attach-options')?.classList.toggle("opened");
+            document.querySelector('.compose__attach-options')?.classList.toggle('opened');
           }
         }
       })]

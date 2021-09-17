@@ -1,9 +1,10 @@
 import Block from '../../scripts/block/block';
 import Link from '../../components/link/link';
 import { Paths } from '../../scripts/dto/types';
+import NotFoundImg from '../../static/img/404.svg';
 
 const tmpl = `.error__wrap(data-child="link")
-  img(src="/404.svg", alt=title).error__img
+  img(src="${NotFoundImg}", alt=title).error__img
   h1.error__title Page not found`;
 
 export default class Page404 extends Block {

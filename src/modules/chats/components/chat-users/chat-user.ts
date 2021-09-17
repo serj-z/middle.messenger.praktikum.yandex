@@ -5,9 +5,11 @@ import { Props } from '../../../../scripts/dto/types';
 import { httpDelete } from '../../../../scripts/http/httpWrap';
 import { chat } from '../../chats';
 import { chatUsersBlock } from './chat-users-modal';
+import CrossImg from '../../../../static/img/cross.svg';
+import UserPlaceholder from '../../../../static/img/user-placeholder.png';
 
 const template: string = `div(data-child="delete").chat-users__item
-  img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '/user-placeholder.png', alt=display_name).contact-img
+  img(src=avatar ? 'https://ya-praktikum.tech/api/v2/resources' + avatar : '${UserPlaceholder}', alt=display_name).contact-img
   .chat-users__item__info
     h3.chat-users__item__name #{display_name ? display_name : first_name + ' ' + second_name}
     p.chat-users__item__login #{login}`;
@@ -18,7 +20,7 @@ export default class ChatUser extends Block {
       tagName: 'li'
     }, template, props, {
       delete: props.currentUser.role === 'admin' || props.currentUser.id === props.id ? [new IconButton({
-        img: 'cross.svg',
+        img: CrossImg,
         type: 'button',
         title: 'Remove this user from the chat',
         classList: 'chat-users__item__btn',

@@ -8,6 +8,7 @@ import ModalsContainer from '../../components/modal/modalsContainer';
 import { equalObjectsShallow, getUser } from '../../scripts/globalFunctions';
 import { userDTO } from '../../scripts/dto/dto';
 import Input from '../profile/components/input/input';
+import UserPlaceholder from '../../static/img/user-placeholder.png';
 
 const tmpl: string = `main(data-child="inputs").profile
   div(data-child="avatar")
@@ -19,7 +20,7 @@ const tmpl: string = `main(data-child="inputs").profile
   div(data-child="modals")`;
 
 const avatar: string = `.profile__avatar
-  img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '/user-placeholder.png' alt=user.login class="profile__img")
+  img(src=user.avatar ? 'https://ya-praktikum.tech/api/v2/resources' + user.avatar : '${UserPlaceholder}' alt=user.login class="profile__img")
   .profile__avatar-change`;
 
 export default class Profile extends Block {
